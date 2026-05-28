@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- สไตล์ธีมเวทมนตร์อัปเกรดแอนิเมชัน --- */
+        /* --- สไตล์ธีมเวทมนตร์และแอนิเมชัน --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Mitr', sans-serif;
@@ -27,17 +27,40 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2; }
         
-        /* สไตล์ Header ขยับนุ่มนวลเวลาโหลด */
-        header { text-align: center; margin-bottom: 50px; animation: fadeInDown 1s ease-out; }
-        .shop-title { font-family: 'Cinzel', serif; font-size: 3.5rem; color: #fff; text-shadow: 0 0 15px #dfb15b; letter-spacing: 5px; transition: 0.3s; }
-        header:hover .shop-title { text-shadow: 0 0 25px #fff, 0 0 35px #dfb15b; transform: scale(1.03); }
+        /* ✨ ส่วนปรับแต่งหัวข้อร้านให้สวยและสมส่วนขึ้น ✨ */
+        header { 
+            text-align: center; 
+            margin-bottom: 45px; 
+            animation: fadeInDown 1s ease-out; 
+        }
+        .shop-title { 
+            font-family: 'Cinzel', serif; 
+            font-size: 2.3rem; /* ปรับลดจาก 3.5rem ให้ดูมินิมอล ไม่ใหญ่เกินไป */
+            font-weight: 700;
+            color: #ffffff; 
+            text-shadow: 0 0 10px rgba(223, 177, 91, 0.5); /* ปรับออร่าให้ซอฟต์ลงแบบพอดี */
+            letter-spacing: 6px; /* เพิ่มช่องว่างระหว่างตัวอักษรให้ดูหรูหรากว้างขวาง */
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        header p {
+            font-size: 0.9rem;
+            color: #a1bcae;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            opacity: 0.85;
+        }
+        header:hover .shop-title { 
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 25px rgba(223, 177, 91, 0.8); 
+            transform: scale(1.04); 
+        }
 
         @keyframes fadeInDown {
-            0% { opacity: 0; transform: translateY(-20px); }
+            0% { opacity: 0; transform: translateY(-15px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ตู้สินค้าและแอนิเมชันกล่องสินค้า */
+        /* ตู้สินค้า */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         
         .product-card { 
@@ -46,7 +69,7 @@
             border-radius: 20px; 
             padding: 20px; 
             position: relative; 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s, opacity 0.3s; 
             backdrop-filter: blur(10px); 
             display: flex; 
             flex-direction: column;
@@ -54,15 +77,36 @@
             perspective: 1000px;
         }
         
-        /* เมื่อเอาเมาส์มาชี้ กล่องจะลอยและเรืองแสงทอง */
         .product-card:hover { 
             transform: translateY(-12px) rotateX(2deg) rotateY(2deg); 
             border-color: #dfb15b; 
             box-shadow: 0 15px 30px rgba(223, 177, 91, 0.25), 0 0 15px rgba(60, 99, 78, 0.5);
         }
 
-        .status-tag { position: absolute; top: 15px; left: 15px; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; z-index: 3; transition: 0.3s; }
-        .product-card:hover .status-tag { transform: translateZ(20px) scale(1.05); }
+        /* ป้ายสถานะแบบเรืองแสงชัดเจน */
+        .status-tag { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            padding: 6px 16px; 
+            border-radius: 30px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            color: #fff; 
+            z-index: 3; 
+            transition: 0.3s;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .product-card:hover .status-tag { transform: translateZ(25px) scale(1.08); }
+
+        .available { background: #00cc44; text-shadow: 0 0 5px #fff; box-shadow: 0 0 15px rgba(0, 204, 68, 0.6), inset 0 0 10px rgba(255,255,255,0.2); }
+        .sold { background: #ff1a1a; text-shadow: 0 0 5px #fff; box-shadow: 0 0 15px rgba(255, 26, 26, 0.6), inset 0 0 10px rgba(255,255,255,0.2); }
+        .reserved { background: #ff8800; text-shadow: 0 0 5px #fff; box-shadow: 0 0 15px rgba(255, 136, 0, 0.6), inset 0 0 10px rgba(255,255,255,0.2); }
+        .installments { background: #0099ff; text-shadow: 0 0 5px #fff; box-shadow: 0 0 15px rgba(0, 153, 255, 0.6), inset 0 0 10px rgba(255,255,255,0.2); }
+
+        .product-card.card-sold { opacity: 0.65; }
+        .product-card.card-sold:hover { opacity: 1; }
 
         .img-box { width: 100%; height: 260px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; transition: 0.3s; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform 0.5s ease; }
@@ -75,7 +119,7 @@
         .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; white-space: pre-line; margin-bottom: 15px; flex-grow: 1; transition: 0.3s; }
         .product-card:hover .p-desc { background: rgba(0, 0, 0, 0.35); color: #fff; }
 
-        /* 🛒 ปุ่มสนใจสั่งซื้อ แบบมีชีพจรขยับเบา ๆ (Pulse Effect) */
+        /* 🛒 ปุ่มสนใจสั่งซื้อชีพจร */
         .buy-btn { 
             background: linear-gradient(90deg, #dfb15b, #bfa043); 
             color: #0b1d16; 
@@ -99,7 +143,7 @@
             background: linear-gradient(90deg, #fff1cc, #dfb15b); 
             box-shadow: 0 0 20px rgba(223, 177, 91, 0.8); 
             transform: scale(1.04);
-            animation-play-state: paused; /* หยุดสั่นชั่วคราวเวลาเมาส์ชี้ */
+            animation-play-state: paused;
         }
 
         @keyframes buttonPulse {
@@ -130,7 +174,7 @@
         .contact-link { color: #dfb15b; text-decoration: none; font-weight: 600; margin: 0 10px; transition: 0.2s; display: inline-block; }
         .contact-link:hover { transform: translateY(-2px); color: #fff; text-shadow: 0 0 8px #dfb15b; }
 
-        /* --- 🔮 สไตล์กล่องป็อปอัปเวทมนตร์แอนิเมชันนุ่มนวล --- */
+        /* กล่องป็อปอัปเวทมนตร์ */
         .magic-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -169,7 +213,6 @@
         .magic-btn-cancel { background: #264233; color: #c9e2d5; border: 1px solid #3c634e; }
         .magic-btn-cancel:hover { background: #3c634e; color: #fff; }
 
-        /* ช่องทางติดต่อในหน้าป็อปอัป */
         .contact-order-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left; }
         .contact-order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; color: #fff; transition: 0.3s; transform: scale(1); }
         .order-line { background: #06C755; }
@@ -183,6 +226,7 @@
     <div class="leaf-container" id="leafContainer"></div>
 
     <div class="container">
+        <!-- 👑 ปรับปรุงขนาดและดีไซน์หัวข้อร้านเรียบร้อย -->
         <header>
             <h1 class="shop-title">CHIEL . MON</h1>
             <p>แหล่งรวมไอดี ฝากขาย Iden ❤️</p>
@@ -225,7 +269,7 @@
         </footer>
     </div>
 
-    <!-- กล่องป็อปอัปเวทมนตร์โครงสร้าง HTML -->
+    <!-- กล่องป็อปอัปเวทมนตร์ -->
     <div class="magic-modal-overlay" id="magicModal">
         <div class="magic-modal-card">
             <div class="magic-modal-title" id="modalTitle">CHIEL . MON</div>
@@ -320,7 +364,7 @@
             };
         }
 
-        // --- ระบบฐานข้อมูล INDEXEDDB SYSTEM (คงเดิมเสถียรที่สุด) ---
+        // --- ระบบฐานข้อมูล INDEXEDDB SYSTEM ---
         const dbName = "ChielMonMegaDB";
         const storeName = "products";
         let db;
@@ -430,7 +474,7 @@
 
                 list.forEach((item) => {
                     const card = document.createElement('div');
-                    card.className = 'product-card';
+                    card.className = `product-card ${item.status === 'sold' ? 'card-sold' : ''}`;
                     card.innerHTML = `
                         <button class="del-btn" style="display:${isEditing?'block':'none'}" onclick="remove(${item.id})">✕</button>
                         <div class="status-tag ${item.status}">${statusLabel[item.status]}</div>
@@ -457,4 +501,3 @@
     </script>
 </body>
 </html>
-
