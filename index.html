@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
-    <!-- เพิ่มฟอนต์แนวเทพนิยายคลาสสิก (Cinzel) มาร่วมกับฟอนต์ภาษาไทย -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* --- สไตล์พื้นฐานและธีม Fairytale เทพนิยายเวทมนตร์ --- */
@@ -16,7 +15,6 @@
 
         body {
             font-family: 'Mitr', sans-serif;
-            /* ปรับโทนสีเป็นสีเขียวป่าเวทมนตร์ลึกลับ (Mystic Emerald) ไล่เฉดไปหาโทนอุ่น */
             background: linear-gradient(135deg, #0b1d16, #143224, #2d1a36);
             color: #f3f9f6;
             min-height: 100vh;
@@ -24,7 +22,6 @@
             position: relative;
         }
 
-        /* เอฟเฟกต์ละอองดาวระยิบระยับ (Pixie Dust) */
         body::before {
             content: "";
             position: absolute;
@@ -46,7 +43,7 @@
             margin: 0 auto;
             padding: 40px 20px;
             position: relative;
-            z-index: 2; /* ให้อยู่เหนือใบไม้ร่วง */
+            z-index: 2;
         }
 
         /* --- ระบบใบไม้ร่วงเวทมนตร์ (Falling Leaves) --- */
@@ -71,7 +68,6 @@
             animation: fall linear infinite;
         }
 
-        /* สุ่มลักษณะใบไม้สีทอง/สีชมพูพาสเทลผ่าน CSS */
         .leaf:nth-child(even) {
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dfb15b"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>');
         }
@@ -80,41 +76,33 @@
         }
 
         @keyframes fall {
-            0% {
-                top: -50px;
-                transform: translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                top: 105vh;
-                transform: translateX(150px) rotate(720deg);
-                opacity: 0;
-            }
+            0% { top: -50px; transform: translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { top: 105vh; transform: translateX(150px) rotate(720deg); opacity: 0; }
         }
 
-        /* --- ปุ่มกดเพิ่มสินค้า (Admin Button) --- */
+        /* --- ปุ่มกดเพิ่มสินค้า ย้ายมาด้านล่างกลางจอ --- */
+        .admin-toggle-btn-wrapper {
+            text-align: center;
+            margin: 40px 0 20px 0;
+        }
+
         .admin-toggle-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             background: linear-gradient(45deg, #b6893c, #dfb15b);
             color: #11271c;
             border: 1px solid #fff3cd;
-            padding: 8px 18px;
+            padding: 12px 30px;
             border-radius: 50px;
             font-family: 'Mitr', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(223, 177, 91, 0.4);
             transition: all 0.3s ease;
-            z-index: 100;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .admin-toggle-btn:hover {
@@ -128,7 +116,6 @@
             text-align: center;
             margin-bottom: 50px;
             margin-top: 20px;
-            position: relative;
         }
 
         .shop-title {
@@ -136,7 +123,6 @@
             font-size: 4rem;
             font-weight: 700;
             color: #ffffff;
-            /* เงาสีทองประกายเวทมนตร์ */
             text-shadow: 0 0 10px #dfb15b, 0 0 20px #b6893c, 0 0 35px #143224;
             letter-spacing: 4px;
             margin-bottom: 10px;
@@ -158,7 +144,7 @@
 
         /* --- โซนแสดงสินค้า (Product Grid) --- */
         .product-section {
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .product-grid {
@@ -179,12 +165,28 @@
             position: relative;
         }
 
-        /* การ Hover แนวเอลฟ์/เทพนิยาย กรอบจะเรืองแสงสีทองอ่อนๆ */
         .product-card:hover {
             transform: translateY(-10px) scale(1.02);
             border-color: #dfb15b;
             box-shadow: 0 15px 35px rgba(223, 177, 91, 0.3);
         }
+
+        /* ป้ายแสดงสถานะสินค้าบนการ์ด */
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .status-available { background-color: #2e7d32; color: #e8f5e9; border: 1px solid #4caf50; text-shadow: 0 0 5px #4caf50; }
+        .status-sold { background-color: #c62828; color: #ffebee; border: 1px solid #ef5350; text-shadow: 0 0 5px #ef5350; }
+        .status-reserved { background-color: #ef6c00; color: #fff3e0; border: 1px solid #ff9800; text-shadow: 0 0 5px #ff9800; }
+        .status-installments { background-color: #0277bd; color: #e1f5fe; border: 1px solid #03a9f4; text-shadow: 0 0 5px #03a9f4; }
 
         .product-image-box {
             width: 100%;
@@ -223,7 +225,7 @@
             white-space: pre-line;
         }
 
-        /* ปุ่มลบสินค้า */
+        /* ปุ่มลบสินค้า (✕) */
         .delete-btn {
             display: none;
             position: absolute;
@@ -231,14 +233,21 @@
             right: -10px;
             background: #ff6b6b;
             color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
+            border: 1px solid #ffb3b3;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            font-size: 1rem;
+            line-height: 30px;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
             z-index: 10;
+            transition: transform 0.2s;
+        }
+        .delete-btn:hover {
+            transform: scale(1.15);
+            background: #ff4747;
         }
 
         /* --- แผงควบคุมกรอกข้อมูล (Admin Panel) --- */
@@ -271,6 +280,7 @@
 
         .admin-panel input[type="text"], 
         .admin-panel textarea,
+        .admin-panel select,
         .admin-panel input[type="file"] {
             width: 100%;
             padding: 12px;
@@ -281,7 +291,12 @@
             font-family: 'Mitr', sans-serif;
         }
 
-        .admin-panel input:focus, .admin-panel textarea:focus {
+        .admin-panel select option {
+            background: #0e1f17;
+            color: #fff;
+        }
+
+        .admin-panel input:focus, .admin-panel textarea:focus, .admin-panel select:focus {
             border-color: #dfb15b;
             outline: none;
             box-shadow: 0 0 8px rgba(223, 177, 91, 0.3);
@@ -313,7 +328,7 @@
             padding: 30px;
             text-align: center;
             max-width: 600px;
-            margin: 40px auto 0 auto;
+            margin: 20px auto 0 auto;
             backdrop-filter: blur(5px);
         }
 
@@ -348,17 +363,7 @@
         .btn-line { background: linear-gradient(45deg, #06c755, #048a30); color: white; }
         .btn-line:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(6, 199, 85, 0.5); }
 
-        /* การจัดวางในมือถือ */
         @media (max-width: 600px) {
-            .admin-toggle-btn {
-                position: relative;
-                top: 0;
-                right: 0;
-                display: block;
-                margin: 0 auto 20px auto;
-                text-align: center;
-                width: fit-content;
-            }
             .shop-title { font-size: 2.8rem; }
             .product-grid { grid-template-columns: 1fr; }
         }
@@ -370,16 +375,25 @@
     <div class="leaf-container" id="leafContainer"></div>
 
     <div class="container">
-        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้าธีมเวทมนตร์ ✨ -->
-        <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ เพิ่มสินค้า</button>
-
         <!-- ส่วนหัวร้าน -->
         <header>
             <h1 class="shop-title">CHIEL . MON</h1>
             <p class="shop-subtitle">แหล่งรวมไอดี , ฝากขาย <span>Iden 🔴</span></p>
         </header>
 
-        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูล -->
+        <!-- โซนแสดงสินค้า -->
+        <main class="product-section">
+            <div class="product-grid" id="productGrid">
+                <!-- ข้อมูลสินค้าที่อัปโหลดจะแสดงตรงนี้อัตโนมัติ -->
+            </div>
+        </main>
+
+        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้า ย้ายมาไว้ด้านล่างแล้ว ✨ -->
+        <div class="admin-toggle-btn-wrapper">
+            <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ จัดการและเพิ่มสินค้า</button>
+        </div>
+
+        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูลและเลือกสถานะ -->
         <div class="admin-panel" id="adminPanel">
             <h3>✨ แผงควบคุมร้านค้า (ระบบจัดการสินค้า)</h3>
             <div class="form-group">
@@ -390,6 +404,16 @@
                 <label>รหัสสินค้า (เช่น ID 01):</label>
                 <input type="text" id="idInput" placeholder="กรอกรหัสไอดี">
             </div>
+            <!-- 📌 เพิ่มตัวเลือกสถานะสินค้า 📌 -->
+            <div class="form-group">
+                <label>สถานะสินค้า:</label>
+                <select id="statusInput">
+                    <option value="available">ยังอยู่</option>
+                    <option value="sold">ขายหมดแล้ว</option>
+                    <option value="reserved">ติดจอง</option>
+                    <option value="installments">ติดผ่อน</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label>รายละเอียดไอดี:</label>
                 <textarea id="descInput" rows="4" placeholder="กรอกรายละเอียดไอดี..."></textarea>
@@ -399,13 +423,6 @@
                 <button class="action-btn btn-close" onclick="toggleAdminPanel()">ซ่อนแผงควบคุม</button>
             </div>
         </div>
-
-        <!-- โซนแสดงสินค้า -->
-        <main class="product-section">
-            <div class="product-grid" id="productGrid">
-                <!-- ข้อมูลสินค้าที่อัปโหลดจะแสดงตรงนี้อัตโนมัติ -->
-            </div>
-        </main>
 
         <!-- ช่องทางติดต่อ -->
         <footer class="contact-section">
@@ -419,29 +436,19 @@
 
     <!-- สคริปต์ระบบทำงานเบื้องหลัง -->
     <script>
-        // ฟังก์ชันสร้างใบไม้ร่วงแบบสุ่มตำแหน่ง ความเร็ว และขนาด
+        // ฟังก์ชันสร้างใบไม้ร่วง
         function createLeaves() {
             const container = document.getElementById('leafContainer');
-            const leafCount = 25; // จำนวนใบไม้บนหน้าจอพร้อมกัน
-            
+            const leafCount = 25;
             for (let i = 0; i < leafCount; i++) {
                 const leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                
-                // สุ่มขนาดใบไม้ (15px ถึง 30px)
                 const size = Math.random() * 15 + 15;
                 leaf.style.width = `${size}px`;
                 leaf.style.height = `${size}px`;
-                
-                // สุ่มตำแหน่งเริ่มต้นแนวนอน (0% - 100%)
                 leaf.style.left = `${Math.random() * 100}%`;
-                
-                // สุ่มระยะเวลาในการร่วง (6 วินาที ถึง 12 วินาที)
                 leaf.style.animationDuration = `${Math.random() * 6 + 6}s`;
-                
-                // สุ่มดีเลย์เวลาร่วง เพื่อไม่ให้ร่วงลงมาพร้อมกันในตอนแรก
                 leaf.style.animationDelay = `${Math.random() * 8}s`;
-                
                 container.appendChild(leaf);
             }
         }
@@ -456,11 +463,14 @@
             } else {
                 panel.style.display = 'block';
                 deleteButtons.forEach(btn => btn.style.display = 'block');
+                // เลื่อนหน้าจอลงมาที่แผงควบคุมเพื่อให้แอดมินเห็นได้ง่ายขึ้น
+                panel.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
         function saveProduct() {
             const idInput = document.getElementById('idInput').value.trim();
+            const statusInput = document.getElementById('statusInput').value;
             const descInput = document.getElementById('descInput').value.trim();
             const imageFile = document.getElementById('imageInput').files[0];
 
@@ -473,6 +483,7 @@
             reader.onload = function(e) {
                 const productData = {
                     id: idInput,
+                    status: statusInput, // บันทึกสถานะลงฐานข้อมูล
                     desc: descInput,
                     image: e.target.result
                 };
@@ -482,6 +493,7 @@
                 localStorage.setItem('chielmon_products', JSON.stringify(products));
 
                 document.getElementById('idInput').value = '';
+                document.getElementById('statusInput').value = 'available';
                 document.getElementById('descInput').value = '';
                 document.getElementById('imageInput').value = '';
                 
@@ -503,11 +515,24 @@
                 return;
             }
 
+            // แมปค่าสถานะเป็นข้อความภาษาไทยและคลาส CSS สำหรับป้ายกำกับ
+            const statusMap = {
+                'available': { text: 'ยังอยู่', class: 'status-available' },
+                'sold': { text: 'ขายหมดแล้ว', class: 'status-sold' },
+                'reserved': { text: 'ติดจอง', class: 'status-reserved' },
+                'installments': { text: 'ติดผ่อน', class: 'status-installments' }
+            };
+
             products.forEach((product, index) => {
+                // หากสินค้าเก่าไม่มีค่า status ให้ตั้งเป็น 'available' (ยังอยู่) โดยอัตโนมัติ
+                const currentStatus = product.status || 'available';
+                const statusInfo = statusMap[currentStatus];
+
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
                     <button class="delete-btn" style="display: ${isEditing ? 'block' : 'none'}" onclick="deleteProduct(${index})">✕</button>
+                    <div class="status-badge ${statusInfo.class}">${statusInfo.text}</div>
                     <div class="product-image-box">
                         <img src="${product.image}" alt="${product.id}">
                     </div>
@@ -527,7 +552,6 @@
             }
         }
 
-        // เรียกใช้งานทั้งระบบแสดงสินค้า และสร้างใบไม้ร่วงเมื่อเปิดหน้าเว็บ
         window.onload = function() {
             displayProducts();
             createLeaves();
