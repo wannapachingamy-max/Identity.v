@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mitr:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- เพิ่มฟอนต์แนวเทพนิยายคลาสสิก (Cinzel) มาร่วมกับฟอนต์ภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- สไตล์พื้นฐานและธีมแฟนตาซีเทพนิยาย --- */
+        /* --- สไตล์พื้นฐานและธีม Fairytale เทพนิยายเวทมนตร์ --- */
         * {
             margin: 0;
             padding: 0;
@@ -15,13 +16,15 @@
 
         body {
             font-family: 'Mitr', sans-serif;
-            background: linear-gradient(135deg, #0f0c1b, #201335, #0b1021);
-            color: #f1e8ff;
+            /* ปรับโทนสีเป็นสีเขียวป่าเวทมนตร์ลึกลับ (Mystic Emerald) ไล่เฉดไปหาโทนอุ่น */
+            background: linear-gradient(135deg, #0b1d16, #143224, #2d1a36);
+            color: #f3f9f6;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
+        /* เอฟเฟกต์ละอองดาวระยิบระยับ (Pixie Dust) */
         body::before {
             content: "";
             position: absolute;
@@ -30,11 +33,11 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
-            background-size: 550px 550px, 350px 350px;
-            background-position: 0 0, 40px 60px;
-            opacity: 0.4;
+                radial-gradient(#fffdf0, rgba(255,253,240,.3) 2px, transparent 40px),
+                radial-gradient(#ffe4bc, rgba(255,228,188,.2) 1.5px, transparent 30px);
+            background-size: 400px 400px, 250px 250px;
+            background-position: 0 0, 50px 70px;
+            opacity: 0.5;
             z-index: -1;
         }
 
@@ -43,6 +46,56 @@
             margin: 0 auto;
             padding: 40px 20px;
             position: relative;
+            z-index: 2; /* ให้อยู่เหนือใบไม้ร่วง */
+        }
+
+        /* --- ระบบใบไม้ร่วงเวทมนตร์ (Falling Leaves) --- */
+        .leaf-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            top: -50px;
+            display: block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        /* สุ่มลักษณะใบไม้สีทอง/สีชมพูพาสเทลผ่าน CSS */
+        .leaf:nth-child(even) {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dfb15b"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>');
+        }
+        .leaf:nth-child(odd) {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f3a1b4"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>');
+        }
+
+        @keyframes fall {
+            0% {
+                top: -50px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                top: 105vh;
+                transform: translateX(150px) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* --- ปุ่มกดเพิ่มสินค้า (Admin Button) --- */
@@ -50,23 +103,24 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: linear-gradient(45deg, #6d28d9, #a855f7);
-            color: white;
-            border: 1px solid #c084fc;
+            background: linear-gradient(45deg, #b6893c, #dfb15b);
+            color: #11271c;
+            border: 1px solid #fff3cd;
             padding: 8px 18px;
             border-radius: 50px;
             font-family: 'Mitr', sans-serif;
             font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 15px rgba(223, 177, 91, 0.4);
             transition: all 0.3s ease;
             z-index: 100;
         }
 
         .admin-toggle-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
-            background: linear-gradient(45deg, #7c3aed, #c084fc);
+            box-shadow: 0 0 25px rgba(255, 228, 188, 0.8);
+            background: linear-gradient(45deg, #dfb15b, #fff1cc);
         }
 
         /* --- ส่วนหัวร้าน --- */
@@ -78,25 +132,28 @@
         }
 
         .shop-title {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: 3.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
             font-weight: 700;
             color: #ffffff;
-            text-shadow: 0 0 10px #a13bf7, 0 0 20px #a13bf7, 0 0 30px #4d0099;
-            letter-spacing: 2px;
+            /* เงาสีทองประกายเวทมนตร์ */
+            text-shadow: 0 0 10px #dfb15b, 0 0 20px #b6893c, 0 0 35px #143224;
+            letter-spacing: 4px;
             margin-bottom: 10px;
             user-select: none;
         }
 
         .shop-subtitle {
             font-size: 1.2rem;
-            color: #d1b3ff;
+            color: #c9e2d5;
             font-weight: 300;
+            letter-spacing: 1px;
         }
 
         .shop-subtitle span {
-            color: #ff4d4d;
-            text-shadow: 0 0 8px #ff4d4d;
+            color: #ff9ebb;
+            text-shadow: 0 0 8px #ff9ebb;
+            font-weight: 600;
         }
 
         /* --- โซนแสดงสินค้า (Product Grid) --- */
@@ -111,31 +168,32 @@
         }
 
         .product-card {
-            background: rgba(25, 18, 46, 0.75);
-            border: 2px solid #58338a;
+            background: rgba(18, 41, 30, 0.8);
+            border: 2px solid #3c634e;
             border-radius: 20px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
 
-        /* ลูกเล่นขยับตอนเมาส์ชี้ */
+        /* การ Hover แนวเอลฟ์/เทพนิยาย กรอบจะเรืองแสงสีทองอ่อนๆ */
         .product-card:hover {
             transform: translateY(-10px) scale(1.02);
-            border-color: #c084fc;
-            box-shadow: 0 15px 35px rgba(161, 59, 247, 0.35);
+            border-color: #dfb15b;
+            box-shadow: 0 15px 35px rgba(223, 177, 91, 0.3);
         }
 
         .product-image-box {
             width: 100%;
             height: 200px;
-            background: linear-gradient(45deg, #130a21, #2d1b4e);
-            border-radius: 12px;
+            background: linear-gradient(45deg, #091711, #1a3a2a);
+            border-radius: 14px;
             overflow: hidden;
             margin-bottom: 15px;
+            border: 1px solid #2a4b3b;
         }
 
         .product-image-box img {
@@ -148,18 +206,19 @@
             font-family: 'Chakra Petch', sans-serif;
             font-size: 1.4rem;
             font-weight: 600;
-            color: #e9d5ff;
+            color: #fff1cc;
+            text-shadow: 0 0 5px rgba(223, 177, 91, 0.5);
             margin-bottom: 8px;
         }
 
         .product-details {
             font-size: 0.95rem;
-            color: #c084fc;
+            color: #d2e7dd;
             line-height: 1.6;
-            background: rgba(15, 10, 30, 0.6);
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #a855f7;
+            background: rgba(9, 21, 15, 0.7);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid #dfb15b;
             text-align: left;
             white-space: pre-line;
         }
@@ -170,7 +229,7 @@
             position: absolute;
             top: -10px;
             right: -10px;
-            background: #ff4d4d;
+            background: #ff6b6b;
             color: white;
             border: none;
             width: 30px;
@@ -178,25 +237,25 @@
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
             z-index: 10;
         }
 
         /* --- แผงควบคุมกรอกข้อมูล (Admin Panel) --- */
         .admin-panel {
             display: none;
-            background: rgba(20, 12, 38, 0.95);
-            border: 2px dashed #a13bf7;
+            background: rgba(14, 31, 23, 0.95);
+            border: 2px dashed #dfb15b;
             padding: 25px;
             border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: 0 0 30px rgba(161, 59, 247, 0.2);
+            box-shadow: 0 0 30px rgba(223, 177, 91, 0.15);
         }
 
         .admin-panel h3 {
             margin-bottom: 15px;
             color: #fff;
-            text-shadow: 0 0 10px #a13bf7;
+            text-shadow: 0 0 10px #dfb15b;
         }
 
         .form-group {
@@ -207,7 +266,7 @@
             display: block;
             margin-bottom: 5px;
             font-size: 0.9rem;
-            color: #d1b3ff;
+            color: #c9e2d5;
         }
 
         .admin-panel input[type="text"], 
@@ -215,16 +274,17 @@
         .admin-panel input[type="file"] {
             width: 100%;
             padding: 12px;
-            background: #0b0716;
-            border: 1px solid #58338a;
+            background: #08120e;
+            border: 1px solid #3c634e;
             border-radius: 8px;
             color: #fff;
             font-family: 'Mitr', sans-serif;
         }
 
         .admin-panel input:focus, .admin-panel textarea:focus {
-            border-color: #a13bf7;
+            border-color: #dfb15b;
             outline: none;
+            box-shadow: 0 0 8px rgba(223, 177, 91, 0.3);
         }
 
         .btn-group {
@@ -241,26 +301,28 @@
             font-family: 'Mitr', sans-serif;
         }
 
-        .btn-save { background: #a13bf7; color: white; }
-        .btn-save:hover { background: #b85eff; }
-        .btn-close { background: #3c265c; color: #d1b3ff; }
+        .btn-save { background: #dfb15b; color: #11271c; }
+        .btn-save:hover { background: #fff1cc; }
+        .btn-close { background: #264233; color: #c9e2d5; }
 
         /* --- ช่องทางติดต่อ (Contact) --- */
         .contact-section {
-            background: rgba(18, 11, 36, 0.85);
-            border: 1px solid #4c2880;
+            background: rgba(13, 31, 22, 0.85);
+            border: 1px solid #325743;
             border-radius: 25px;
             padding: 30px;
             text-align: center;
             max-width: 600px;
             margin: 40px auto 0 auto;
+            backdrop-filter: blur(5px);
         }
 
         .contact-title {
             font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 20px;
-            text-shadow: 0 0 8px #a13bf7;
+            color: #fff;
+            text-shadow: 0 0 8px #dfb15b;
         }
 
         .contact-buttons {
@@ -281,9 +343,9 @@
             transition: 0.3s;
         }
 
-        .btn-facebook { background: linear-gradient(45deg, #1877f2, #3b5998); color: white; }
+        .btn-facebook { background: linear-gradient(45deg, #1877f2, #29539b); color: white; }
         .btn-facebook:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(24, 119, 242, 0.5); }
-        .btn-line { background: linear-gradient(45deg, #06c755, #05a345); color: white; }
+        .btn-line { background: linear-gradient(45deg, #06c755, #048a30); color: white; }
         .btn-line:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(6, 199, 85, 0.5); }
 
         /* การจัดวางในมือถือ */
@@ -297,15 +359,18 @@
                 text-align: center;
                 width: fit-content;
             }
-            .shop-title { font-size: 2.5rem; }
+            .shop-title { font-size: 2.8rem; }
             .product-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+    <!-- 🍂 เลเยอร์สำหรับสร้างเอฟเฟกต์ใบไม้ร่วง 🍂 -->
+    <div class="leaf-container" id="leafContainer"></div>
+
     <div class="container">
-        <!-- 💜 ปุ่มเปิด-ปิดระบบเพิ่มสินค้าอัปเกรดใหม่ 💜 -->
+        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้าธีมเวทมนตร์ ✨ -->
         <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ เพิ่มสินค้า</button>
 
         <!-- ส่วนหัวร้าน -->
@@ -314,7 +379,7 @@
             <p class="shop-subtitle">แหล่งรวมไอดี , ฝากขาย <span>Iden 🔴</span></p>
         </header>
 
-        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูล (เปิด-ปิดผ่านปุ่มด้านบน) -->
+        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูล -->
         <div class="admin-panel" id="adminPanel">
             <h3>✨ แผงควบคุมร้านค้า (ระบบจัดการสินค้า)</h3>
             <div class="form-group">
@@ -354,6 +419,33 @@
 
     <!-- สคริปต์ระบบทำงานเบื้องหลัง -->
     <script>
+        // ฟังก์ชันสร้างใบไม้ร่วงแบบสุ่มตำแหน่ง ความเร็ว และขนาด
+        function createLeaves() {
+            const container = document.getElementById('leafContainer');
+            const leafCount = 25; // จำนวนใบไม้บนหน้าจอพร้อมกัน
+            
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                
+                // สุ่มขนาดใบไม้ (15px ถึง 30px)
+                const size = Math.random() * 15 + 15;
+                leaf.style.width = `${size}px`;
+                leaf.style.height = `${size}px`;
+                
+                // สุ่มตำแหน่งเริ่มต้นแนวนอน (0% - 100%)
+                leaf.style.left = `${Math.random() * 100}%`;
+                
+                // สุ่มระยะเวลาในการร่วง (6 วินาที ถึง 12 วินาที)
+                leaf.style.animationDuration = `${Math.random() * 6 + 6}s`;
+                
+                // สุ่มดีเลย์เวลาร่วง เพื่อไม่ให้ร่วงลงมาพร้อมกันในตอนแรก
+                leaf.style.animationDelay = `${Math.random() * 8}s`;
+                
+                container.appendChild(leaf);
+            }
+        }
+
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanel');
             const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -407,7 +499,7 @@
             let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
 
             if (products.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #8b7ca3; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #a1bcae; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
                 return;
             }
 
@@ -435,7 +527,11 @@
             }
         }
 
-        window.onload = displayProducts;
+        // เรียกใช้งานทั้งระบบแสดงสินค้า และสร้างใบไม้ร่วงเมื่อเปิดหน้าเว็บ
+        window.onload = function() {
+            displayProducts();
+            createLeaves();
+        };
     </script>
 </body>
 </html>
