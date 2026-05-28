@@ -6,13 +6,8 @@
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- สไตล์พื้นฐานและธีม Fairytale เทพนิยายเวทมนตร์ --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* --- Fairytale Theme Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Mitr', sans-serif;
             background: linear-gradient(135deg, #0b1d16, #143224, #2d1a36);
@@ -21,540 +16,183 @@
             overflow-x: hidden;
             position: relative;
         }
+        
+        /* ใบไม้ร่วงพื้นหลัง */
+        .leaf-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .leaf { position: absolute; top: -50px; width: 20px; height: 20px; background-size: contain; animation: fall linear infinite; opacity: 0.6; }
+        .leaf:nth-child(even) { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dfb15b"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>'); }
+        .leaf:nth-child(odd) { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f3a1b4"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>'); }
+        @keyframes fall { 0% { top: -50px; transform: translateX(0) rotate(0deg); } 100% { top: 100vh; transform: translateX(100px) rotate(360deg); } }
 
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(#fffdf0, rgba(255,253,240,.3) 2px, transparent 40px),
-                radial-gradient(#ffe4bc, rgba(255,228,188,.2) 1.5px, transparent 30px);
-            background-size: 400px 400px, 250px 250px;
-            background-position: 0 0, 50px 70px;
-            opacity: 0.5;
-            z-index: -1;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 2;
-        }
+        header { text-align: center; margin-bottom: 50px; }
+        .shop-title { font-family: 'Cinzel', serif; font-size: 3.5rem; color: #fff; text-shadow: 0 0 15px #dfb15b; letter-spacing: 5px; }
 
-        /* --- ระบบใบไม้ร่วงเวทมนตร์ (Falling Leaves) --- */
-        .leaf-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
+        /* ตู้สินค้า */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background: rgba(18, 41, 30, 0.85); border: 2px solid #3c634e; border-radius: 20px; padding: 20px; position: relative; transition: 0.3s; backdrop-filter: blur(10px); }
+        .product-card:hover { transform: translateY(-10px); border-color: #dfb15b; }
 
-        .leaf {
-            position: absolute;
-            top: -50px;
-            display: block;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.7;
-            animation: fall linear infinite;
-        }
+        .status-tag { position: absolute; top: 15px; left: 15px; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; z-index: 3; }
+        .available { background: #2e7d32; }
+        .sold { background: #c62828; }
+        .reserved { background: #ef6c00; }
+        .installments { background: #0277bd; }
 
-        .leaf:nth-child(even) {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dfb15b"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>');
-        }
-        .leaf:nth-child(odd) {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f3a1b4"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>');
-        }
+        .img-box { width: 100%; height: 180px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .p-id { font-family: 'Chakra Petch', sans-serif; font-size: 1.3rem; color: #fff1cc; margin-bottom: 5px; font-weight: 700; }
+        .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; }
 
-        @keyframes fall {
-            0% { top: -50px; transform: translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.6; }
-            100% { top: 105vh; transform: translateX(150px) rotate(720deg); opacity: 0; }
-        }
+        /* ปุ่มลบ */
+        .del-btn { display: none; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 10; }
 
-        /* --- ปุ่มกดเพิ่มสินค้า ย้ายมาด้านล่างกลางจอ --- */
-        .admin-toggle-btn-wrapper {
-            text-align: center;
-            margin: 40px 0 20px 0;
-        }
+        /* แผงควบคุมด้านล่าง */
+        .admin-section { margin-top: 60px; text-align: center; }
+        .toggle-admin { background: #dfb15b; color: #0b1d16; padding: 12px 30px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; font-size: 1rem; }
+        .admin-panel { display: none; background: rgba(20, 40, 30, 0.95); border: 2px dashed #dfb15b; border-radius: 20px; padding: 30px; margin-top: 20px; text-align: left; }
+        .admin-panel label { display: block; margin-top: 10px; color: #dfb15b; font-size: 0.9rem; }
+        .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-top: 5px; background: #08120e; border: 1px solid #3c634e; color: #fff; border-radius: 5px; }
+        .save-btn { background: #dfb15b; color: #0b1d16; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; }
 
-        .admin-toggle-btn {
-            background: linear-gradient(45deg, #b6893c, #dfb15b);
-            color: #11271c;
-            border: 1px solid #fff3cd;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-family: 'Mitr', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(223, 177, 91, 0.4);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .admin-toggle-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 228, 188, 0.8);
-            background: linear-gradient(45deg, #dfb15b, #fff1cc);
-        }
-
-        /* --- ส่วนหัวร้าน --- */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            margin-top: 20px;
-        }
-
-        .shop-title {
-            font-family: 'Cinzel', serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 0 10px #dfb15b, 0 0 20px #b6893c, 0 0 35px #143224;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            user-select: none;
-        }
-
-        .shop-subtitle {
-            font-size: 1.2rem;
-            color: #c9e2d5;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        .shop-subtitle span {
-            color: #ff9ebb;
-            text-shadow: 0 0 8px #ff9ebb;
-            font-weight: 600;
-        }
-
-        /* --- โซนแสดงสินค้า (Product Grid) --- */
-        .product-section {
-            margin-bottom: 40px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: rgba(18, 41, 30, 0.8);
-            border: 2px solid #3c634e;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #dfb15b;
-            box-shadow: 0 15px 35px rgba(223, 177, 91, 0.3);
-        }
-
-        /* ป้ายแสดงสถานะสินค้าบนการ์ด */
-        .status-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 5;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-        .status-available { background-color: #2e7d32; color: #e8f5e9; border: 1px solid #4caf50; text-shadow: 0 0 5px #4caf50; }
-        .status-sold { background-color: #c62828; color: #ffebee; border: 1px solid #ef5350; text-shadow: 0 0 5px #ef5350; }
-        .status-reserved { background-color: #ef6c00; color: #fff3e0; border: 1px solid #ff9800; text-shadow: 0 0 5px #ff9800; }
-        .status-installments { background-color: #0277bd; color: #e1f5fe; border: 1px solid #03a9f4; text-shadow: 0 0 5px #03a9f4; }
-
-        .product-image-box {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #091711, #1a3a2a);
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            border: 1px solid #2a4b3b;
-        }
-
-        .product-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-id {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #fff1cc;
-            text-shadow: 0 0 5px rgba(223, 177, 91, 0.5);
-            margin-bottom: 8px;
-        }
-
-        .product-details {
-            font-size: 0.95rem;
-            color: #d2e7dd;
-            line-height: 1.6;
-            background: rgba(9, 21, 15, 0.7);
-            padding: 12px;
-            border-radius: 10px;
-            border-left: 3px solid #dfb15b;
-            text-align: left;
-            white-space: pre-line;
-        }
-
-        /* ปุ่มลบสินค้า (✕) */
-        .delete-btn {
-            display: none;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #ff6b6b;
-            color: white;
-            border: 1px solid #ffb3b3;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            line-height: 30px;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
-            z-index: 10;
-            transition: transform 0.2s;
-        }
-        .delete-btn:hover {
-            transform: scale(1.15);
-            background: #ff4747;
-        }
-
-        /* --- แผงควบคุมกรอกข้อมูล (Admin Panel) --- */
-        .admin-panel {
-            display: none;
-            background: rgba(14, 31, 23, 0.95);
-            border: 2px dashed #dfb15b;
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 0 30px rgba(223, 177, 91, 0.15);
-        }
-
-        .admin-panel h3 {
-            margin-bottom: 15px;
-            color: #fff;
-            text-shadow: 0 0 10px #dfb15b;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            color: #c9e2d5;
-        }
-
-        .admin-panel input[type="text"], 
-        .admin-panel textarea,
-        .admin-panel select,
-        .admin-panel input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            background: #08120e;
-            border: 1px solid #3c634e;
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Mitr', sans-serif;
-        }
-
-        .admin-panel select option {
-            background: #0e1f17;
-            color: #fff;
-        }
-
-        .admin-panel input:focus, .admin-panel textarea:focus, .admin-panel select:focus {
-            border-color: #dfb15b;
-            outline: none;
-            box-shadow: 0 0 8px rgba(223, 177, 91, 0.3);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: 'Mitr', sans-serif;
-        }
-
-        .btn-save { background: #dfb15b; color: #11271c; }
-        .btn-save:hover { background: #fff1cc; }
-        .btn-close { background: #264233; color: #c9e2d5; }
-
-        /* --- ช่องทางติดต่อ (Contact) --- */
-        .contact-section {
-            background: rgba(13, 31, 22, 0.85);
-            border: 1px solid #325743;
-            border-radius: 25px;
-            padding: 30px;
-            text-align: center;
-            max-width: 600px;
-            margin: 20px auto 0 auto;
-            backdrop-filter: blur(5px);
-        }
-
-        .contact-title {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #fff;
-            text-shadow: 0 0 8px #dfb15b;
-        }
-
-        .contact-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-
-        .btn-facebook { background: linear-gradient(45deg, #1877f2, #29539b); color: white; }
-        .btn-facebook:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(24, 119, 242, 0.5); }
-        .btn-line { background: linear-gradient(45deg, #06c755, #048a30); color: white; }
-        .btn-line:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(6, 199, 85, 0.5); }
-
-        @media (max-width: 600px) {
-            .shop-title { font-size: 2.8rem; }
-            .product-grid { grid-template-columns: 1fr; }
-        }
+        footer { text-align: center; margin-top: 60px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 20px; }
+        .contact-link { color: #dfb15b; text-decoration: none; font-weight: 600; margin: 0 10px; }
     </style>
 </head>
 <body>
 
-    <!-- 🍂 เลเยอร์สำหรับสร้างเอฟเฟกต์ใบไม้ร่วง 🍂 -->
     <div class="leaf-container" id="leafContainer"></div>
 
     <div class="container">
-        <!-- ส่วนหัวร้าน -->
         <header>
             <h1 class="shop-title">CHIEL . MON</h1>
-            <p class="shop-subtitle">แหล่งรวมไอดี , ฝากขาย <span>Iden 🔴</span></p>
+            <p>แหล่งรวมไอดี ฝากขาย Iden ❤️</p>
         </header>
 
-        <!-- โซนแสดงสินค้า -->
-        <main class="product-section">
-            <div class="product-grid" id="productGrid">
-                <!-- ข้อมูลสินค้าที่อัปโหลดจะแสดงตรงนี้อัตโนมัติ -->
+        <div class="product-grid" id="mainGrid">
             </div>
-        </main>
 
-        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้า ✨ -->
-        <div class="admin-toggle-btn-wrapper">
-            <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ จัดการและเพิ่มสินค้า</button>
-        </div>
-
-        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูลและเลือกสถานะ -->
-        <div class="admin-panel" id="adminPanel">
-            <h3>✨ แผงควบคุมร้านค้า (ระบบจัดการสินค้า)</h3>
-            <div class="form-group">
-                <label>อัปโหลดรูปภาพสินค้า:</label>
-                <input type="file" id="imageInput" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>รหัสสินค้า (เช่น ID 01):</label>
-                <input type="text" id="idInput" placeholder="กรอกรหัสไอดี">
-            </div>
-            <div class="form-group">
+        <div class="admin-section">
+            <button class="toggle-admin" onclick="showAdmin()">✨ จัดการตู้สินค้า (เพิ่ม/ลบ)</button>
+            
+            <div class="admin-panel" id="adminBox">
+                <h3>🛠️ เพิ่มสินค้าใหม่</h3>
+                <label>รูปภาพไอดี:</label>
+                <input type="file" id="pImg" accept="image/*">
+                
+                <label>รหัสไอดี (ID):</label>
+                <input type="text" id="pId" placeholder="เช่น ID-001">
+                
                 <label>สถานะสินค้า:</label>
-                <select id="statusInput">
+                <select id="pStatus">
                     <option value="available">ยังอยู่</option>
                     <option value="sold">ขายหมดแล้ว</option>
                     <option value="reserved">ติดจอง</option>
                     <option value="installments">ติดผ่อน</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <label>รายละเอียดไอดี:</label>
-                <textarea id="descInput" rows="4" placeholder="กรอกรายละเอียดไอดี..."></textarea>
-            </div>
-            <div class="btn-group">
-                <button class="action-btn btn-save" onclick="saveProduct()">บันทึกและเพิ่มสินค้า</button>
-                <button class="action-btn btn-close" onclick="toggleAdminPanel()">ซ่อนแผงควบคุม</button>
+                
+                <label>รายละเอียดสินค้า:</label>
+                <textarea id="pDesc" rows="3" placeholder="ระบุรายละเอียด..."></textarea>
+                
+                <button class="save-btn" onclick="addNew()">➕ บันทึกลงตู้สินค้า</button>
             </div>
         </div>
 
-        <!-- ช่องทางติดต่อ -->
-        <footer class="contact-section">
-            <h2 class="contact-title">✦ Contact ช่องทางติดต่อ ✦</h2>
-            <div class="contact-buttons">
-                <a href="https://www.facebook.com/share/1CTGfbxK8g/" target="_blank" class="contact-btn btn-facebook">Facebook ร้านค้า</a>
-                <a href="https://lin.ee/7pt6TZl" target="_blank" class="contact-btn btn-line">Line Official</a>
-            </div>
+        <footer>
+            <p>✦ Contact ✦</p>
+            <a href="https://www.facebook.com/share/1CTGfbxK8g/" class="contact-link">Facebook</a>
+            <a href="https://lin.ee/7pt6TZl" class="contact-link">Line Official</a>
         </footer>
     </div>
 
-    <!-- สคริปต์ระบบทำงานเบื้องหลัง -->
     <script>
-        function createLeaves() {
-            const container = document.getElementById('leafContainer');
-            const leafCount = 25;
-            for (let i = 0; i < leafCount; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                const size = Math.random() * 15 + 15;
-                leaf.style.width = `${size}px`;
-                leaf.style.height = `${size}px`;
-                leaf.style.left = `${Math.random() * 100}%`;
-                leaf.style.animationDuration = `${Math.random() * 6 + 6}s`;
-                leaf.style.animationDelay = `${Math.random() * 8}s`;
-                container.appendChild(leaf);
-            }
+        // สร้างใบไม้ร่วง
+        for (let i = 0; i < 15; i++) {
+            const l = document.createElement('div');
+            l.className = 'leaf';
+            l.style.left = Math.random() * 100 + '%';
+            l.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            l.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('leafContainer').appendChild(l);
         }
 
-        function toggleAdminPanel() {
-            const panel = document.getElementById('adminPanel');
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            
-            if (panel.style.display === 'block') {
-                panel.style.display = 'none';
-                deleteButtons.forEach(btn => btn.style.display = 'none');
-            } else {
-                panel.style.display = 'block';
-                deleteButtons.forEach(btn => btn.style.display = 'block');
-                panel.scrollIntoView({ behavior: 'smooth' });
-            }
+        // ระบบจัดการข้อมูล
+        let storageKey = "CHIEL_MON_DATA_V1";
+
+        function showAdmin() {
+            const box = document.getElementById('adminBox');
+            const btns = document.querySelectorAll('.del-btn');
+            const isOpen = box.style.display === 'block';
+            box.style.display = isOpen ? 'none' : 'block';
+            btns.forEach(b => b.style.display = isOpen ? 'none' : 'block');
+            if(!isOpen) box.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 🛠️ ปรับปรุงแก้ไขฟังก์ชันบันทึกข้อมูลตรงนี้ 🛠️
-        function saveProduct() {
-            const idInput = document.getElementById('idInput').value.trim();
-            const statusInput = document.getElementById('statusInput').value;
-            const descInput = document.getElementById('descInput').value.trim();
-            const imageFile = document.getElementById('imageInput').files[0];
+        function addNew() {
+            const id = document.getElementById('pId').value;
+            const status = document.getElementById('pStatus').value;
+            const desc = document.getElementById('pDesc').value;
+            const file = document.getElementById('pImg').files[0];
 
-            if (!idInput || !descInput || !imageFile) {
-                alert("กรุณากรอกข้อมูลและเลือกรูปภาพให้ครบถ้วนนะคะ ✦");
-                return;
-            }
+            if(!id || !desc || !file) return alert("กรอกข้อมูลให้ครบและเลือกรูปด้วยจ้า!");
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const productData = {
-                    id: idInput,
-                    status: statusInput,
-                    desc: descInput,
-                    image: e.target.result
-                };
-
-                // ดึงข้อมูลเก่า -> ต่อท้ายด้วยชิ้นใหม่ -> เซฟลงเครื่อง
-                let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
-                products.push(productData);
-                localStorage.setItem('chielmon_products', JSON.stringify(products));
-
-                // เคลียร์ค่าในฟอร์มเพื่อให้พร้อมรับข้อมูลชิ้นต่อไป
-                document.getElementById('idInput').value = '';
-                document.getElementById('statusInput').value = 'available';
-                document.getElementById('descInput').value = '';
-                document.getElementById('imageInput').value = '';
+                const newItem = { id, status, desc, img: e.target.result };
+                const list = JSON.parse(localStorage.getItem(storageKey)) || [];
+                list.push(newItem);
+                localStorage.setItem(storageKey, JSON.stringify(list));
                 
-                // สั่งให้อัปเดตตู้แสดงสินค้าทันทีหลังจากเคลียร์ฟอร์มสำเร็จ
-                displayProducts();
+                // ล้างค่าช่องกรอก
+                document.getElementById('pId').value = '';
+                document.getElementById('pDesc').value = '';
+                document.getElementById('pImg').value = '';
+                
+                render(); // วาดใหม่ทันที
+                alert("เพิ่มสำเร็จ!");
             };
-            reader.readAsDataURL(imageFile);
+            reader.readAsDataURL(file);
         }
 
-        function displayProducts() {
-            const grid = document.getElementById('productGrid');
-            const panel = document.getElementById('adminPanel');
-            const isEditing = panel.style.display === 'block';
+        function render() {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = ''; // ล้างของเก่าทิ้งก่อนวาดใหม่ทั้งหมด
             
-            grid.innerHTML = '';
-            let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
-
-            if (products.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #a1bcae; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
-                return;
-            }
-
-            const statusMap = {
-                'available': { text: 'ยังอยู่', class: 'status-available' },
-                'sold': { text: 'ขายหมดแล้ว', class: 'status-sold' },
-                'reserved': { text: 'ติดจอง', class: 'status-reserved' },
-                'installments': { text: 'ติดผ่อน', class: 'status-installments' }
+            const list = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const isEditing = document.getElementById('adminBox').style.display === 'block';
+            
+            const statusLabel = {
+                'available': 'ยังอยู่',
+                'sold': 'ขายหมดแล้ว',
+                'reserved': 'ติดจอง',
+                'installments': 'ติดผ่อน'
             };
 
-            products.forEach((product, index) => {
-                const currentStatus = product.status || 'available';
-                const statusInfo = statusMap[currentStatus];
-
+            list.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <button class="delete-btn" style="display: ${isEditing ? 'block' : 'none'}" onclick="deleteProduct(${index})">✕</button>
-                    <div class="status-badge ${statusInfo.class}">${statusInfo.text}</div>
-                    <div class="product-image-box">
-                        <img src="${product.image}" alt="${product.id}">
-                    </div>
-                    <div class="product-id">${product.id}</div>
-                    <div class="product-details">${product.desc}</div>
+                    <button class="del-btn" style="display:${isEditing?'block':'none'}" onclick="remove(${index})">✕</button>
+                    <div class="status-tag ${item.status}">${statusLabel[item.status]}</div>
+                    <div class="img-box"><img src="${item.img}"></div>
+                    <div class="p-id">${item.id}</div>
+                    <div class="p-desc">${item.desc}</div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function deleteProduct(index) {
-            if(confirm("คุณต้องการลบไอเทมนี้ใช่หรือไม่?")) {
-                let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
-                products.splice(index, 1);
-                localStorage.setItem('chielmon_products', JSON.stringify(products));
-                displayProducts();
-            }
+        function remove(index) {
+            if(!confirm("จะลบชิ้นนี้ใช่ไหม?")) return;
+            const list = JSON.parse(localStorage.getItem(storageKey)) || [];
+            list.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(list));
+            render();
         }
 
-        window.onload = function() {
-            displayProducts();
-            createLeaves();
-        };
+        // โหลดข้อมูลขึ้นมาโชว์ตอนเปิดเว็บครั้งแรก
+        window.onload = render;
     </script>
 </body>
 </html>
