@@ -6,7 +6,7 @@
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- Fairytale Theme Styles --- */
+        /* --- สไตล์ธีมเวทมนตร์ (คงเดิมเพื่อความสวยงาม) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Mitr', sans-serif;
@@ -17,7 +17,6 @@
             position: relative;
         }
         
-        /* ใบไม้ร่วงพื้นหลัง */
         .leaf-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .leaf { position: absolute; top: -50px; width: 20px; height: 20px; background-size: contain; animation: fall linear infinite; opacity: 0.6; }
         .leaf:nth-child(even) { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dfb15b"><path d="M17,8C15.24,5.87 11.29,4 7,4C6.23,4 5.5,4.07 4.79,4.21C4.08,5.08 3.62,6.17 3.5,7.37C3,12.31 6.5,17.29 11.5,18.5C11.5,19.5 12,20 12,20C12,20 12.5,19.5 12.5,18.5C16.89,17.44 20.17,13.78 20.5,9.15C20.5,8.74 20.32,8.34 20,8C19.14,8 18.09,8 17,8Z"/></svg>'); }
@@ -25,7 +24,6 @@
         @keyframes fall { 0% { top: -50px; transform: translateX(0) rotate(0deg); } 100% { top: 100vh; transform: translateX(100px) rotate(360deg); } }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2; }
-
         header { text-align: center; margin-bottom: 50px; }
         .shop-title { font-family: 'Cinzel', serif; font-size: 3.5rem; color: #fff; text-shadow: 0 0 15px #dfb15b; letter-spacing: 5px; }
 
@@ -43,7 +41,7 @@
         .img-box { width: 100%; height: 180px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
         .p-id { font-family: 'Chakra Petch', sans-serif; font-size: 1.3rem; color: #fff1cc; margin-bottom: 5px; font-weight: 700; }
-        .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; }
+        .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; white-space: pre-line; }
 
         /* ปุ่มลบ */
         .del-btn { display: none; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 10; }
@@ -53,8 +51,8 @@
         .toggle-admin { background: #dfb15b; color: #0b1d16; padding: 12px 30px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; font-size: 1rem; }
         .admin-panel { display: none; background: rgba(20, 40, 30, 0.95); border: 2px dashed #dfb15b; border-radius: 20px; padding: 30px; margin-top: 20px; text-align: left; }
         .admin-panel label { display: block; margin-top: 10px; color: #dfb15b; font-size: 0.9rem; }
-        .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-top: 5px; background: #08120e; border: 1px solid #3c634e; color: #fff; border-radius: 5px; }
-        .save-btn { background: #dfb15b; color: #0b1d16; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; }
+        .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-top: 5px; background: #08120e; border: 1px solid #3c634e; color: #fff; border-radius: 5px; font-family: 'Mitr', sans-serif; }
+        .save-btn { background: #dfb15b; color: #0b1d16; padding: 12px 20px; border: none; border-radius: 5px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; font-family: 'Mitr', sans-serif; font-size: 1rem; }
 
         footer { text-align: center; margin-top: 60px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 20px; }
         .contact-link { color: #dfb15b; text-decoration: none; font-weight: 600; margin: 0 10px; }
@@ -70,13 +68,16 @@
             <p>แหล่งรวมไอดี ฝากขาย Iden ❤️</p>
         </header>
 
+        <!-- โซนตู้สินค้า -->
         <div class="product-grid" id="mainGrid">
-            </div>
+            <!-- รายการสินค้าทั้งหมดจะแสดงตรงนี้ -->
+        </div>
 
+        <!-- แผงควบคุมแอดมินด้านล่าง -->
         <div class="admin-section">
             <button class="toggle-admin" onclick="showAdmin()">✨ จัดการตู้สินค้า (เพิ่ม/ลบ)</button>
             
-            <div class="admin-panel" id="adminBox">
+            <div class="admin-panel" id="adminBox" style="display: none;">
                 <h3>🛠️ เพิ่มสินค้าใหม่</h3>
                 <label>รูปภาพไอดี:</label>
                 <input type="file" id="pImg" accept="image/*">
@@ -93,75 +94,105 @@
                 </select>
                 
                 <label>รายละเอียดสินค้า:</label>
-                <textarea id="pDesc" rows="3" placeholder="ระบุรายละเอียด..."></textarea>
+                <textarea id="pDesc" rows="3" placeholder="ระบุรายละเอียดไอดี..."></textarea>
                 
-                <button class="save-btn" onclick="addNew()">➕ บันทึกลงตู้สินค้า</button>
+                <button class="save-btn" onclick="addNew()">➕ บันทึกและแสดงผลทันที</button>
             </div>
         </div>
 
         <footer>
             <p>✦ Contact ✦</p>
-            <a href="https://www.facebook.com/share/1CTGfbxK8g/" class="contact-link">Facebook</a>
-            <a href="https://lin.ee/7pt6TZl" class="contact-link">Line Official</a>
+            <a href="https://www.facebook.com/share/1CTGfbxK8g/" class="contact-link" target="_blank">Facebook</a>
+            <a href="https://lin.ee/7pt6TZl" class="contact-link" target="_blank">Line Official</a>
         </footer>
     </div>
 
     <script>
-        // สร้างใบไม้ร่วง
-        for (let i = 0; i < 15; i++) {
-            const l = document.createElement('div');
-            l.className = 'leaf';
-            l.style.left = Math.random() * 100 + '%';
-            l.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            l.style.animationDelay = Math.random() * 5 + 's';
-            document.getElementById('leafContainer').appendChild(l);
+        // สร้างใบไม้ร่วงพื้นหลัง
+        const leafContainer = document.getElementById('leafContainer');
+        if (leafContainer) {
+            for (let i = 0; i < 15; i++) {
+                const l = document.createElement('div');
+                l.className = 'leaf';
+                l.style.left = Math.random() * 100 + '%';
+                l.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                l.style.animationDelay = Math.random() * 5 + 's';
+                leafContainer.appendChild(l);
+            }
         }
 
-        // ระบบจัดการข้อมูล
-        let storageKey = "CHIEL_MON_DATA_V1";
+        // คีย์สำหรับเก็บข้อมูลในคอมพิวเตอร์
+        const storageKey = "CHIEL_MON_FINAL_STORE";
 
+        // ฟังก์ชันเปิด-ปิดแผงควบคุม
         function showAdmin() {
             const box = document.getElementById('adminBox');
             const btns = document.querySelectorAll('.del-btn');
-            const isOpen = box.style.display === 'block';
-            box.style.display = isOpen ? 'none' : 'block';
-            btns.forEach(b => b.style.display = isOpen ? 'none' : 'block');
-            if(!isOpen) box.scrollIntoView({ behavior: 'smooth' });
+            
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+                btns.forEach(b => b.style.display = 'none');
+            } else {
+                box.style.display = 'block';
+                btns.forEach(b => b.style.display = 'block');
+                box.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
+        // ฟังก์ชันเพิ่มสินค้าใหม่ (แก้ไขปัญหาการหยุดทำงานแล้ว)
         function addNew() {
-            const id = document.getElementById('pId').value;
+            const id = document.getElementById('pId').value.trim();
             const status = document.getElementById('pStatus').value;
-            const desc = document.getElementById('pDesc').value;
-            const file = document.getElementById('pImg').files[0];
+            const desc = document.getElementById('pDesc').value.trim();
+            const fileInput = document.getElementById('pImg');
+            const file = fileInput.files[0];
 
-            if(!id || !desc || !file) return alert("กรอกข้อมูลให้ครบและเลือกรูปด้วยจ้า!");
+            if(!id || !desc || !file) {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพด้วยนะจ้า! ✦");
+                return;
+            }
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const newItem = { id, status, desc, img: e.target.result };
-                const list = JSON.parse(localStorage.getItem(storageKey)) || [];
-                list.push(newItem);
-                localStorage.setItem(storageKey, JSON.stringify(list));
-                
-                // ล้างค่าช่องกรอก
-                document.getElementById('pId').value = '';
-                document.getElementById('pDesc').value = '';
-                document.getElementById('pImg').value = '';
-                
-                render(); // วาดใหม่ทันที
-                alert("เพิ่มสำเร็จ!");
+                try {
+                    const newItem = { id, status, desc, img: e.target.result };
+                    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+                    
+                    list.push(newItem);
+                    localStorage.setItem(storageKey, JSON.stringify(list));
+                    
+                    // เคลียร์ฟอร์ม
+                    document.getElementById('pId').value = '';
+                    document.getElementById('pDesc').value = '';
+                    fileInput.value = '';
+                    
+                    render(); // รีเฟรชตู้สินค้าบนหน้าเว็บ
+                    alert("เพิ่มสินค้าเข้าตู้เรียบร้อยแล้ว!");
+                } catch (error) {
+                    alert("ขนาดไฟล์รูปภาพใหญ่เกินไปเล็กน้อยครับ ลองลดขนาดรูปภาพลง แล้วลองอัปโหลดใหม่อีกครั้งนะครับ");
+                }
             };
             reader.readAsDataURL(file);
         }
 
+        // ฟังก์ชันวาดตู้สินค้าขึ้นหน้าเว็บ
         function render() {
             const grid = document.getElementById('mainGrid');
-            grid.innerHTML = ''; // ล้างของเก่าทิ้งก่อนวาดใหม่ทั้งหมด
+            if (!grid) return;
+            
+            grid.innerHTML = ''; // เคลียร์ตู้ให้ว่าง
             
             const list = JSON.parse(localStorage.getItem(storageKey)) || [];
-            const isEditing = document.getElementById('adminBox').style.display === 'block';
+            const box = document.getElementById('adminBox');
             
+            // ตรวจสอบความปลอดภัยป้องกันโค้ดชะงัก
+            const isEditing = box ? (box.style.display === 'block') : false;
+            
+            if (list.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #a1bcae; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
+                return;
+            }
+
             const statusLabel = {
                 'available': 'ยังอยู่',
                 'sold': 'ขายหมดแล้ว',
@@ -183,17 +214,19 @@
             });
         }
 
+        // ฟังก์ชันลบสินค้า
         function remove(index) {
-            if(!confirm("จะลบชิ้นนี้ใช่ไหม?")) return;
-            const list = JSON.parse(localStorage.getItem(storageKey)) || [];
+            if(!confirm("คุณต้องการลบสินค้าชิ้นนี้ใช่หรือไม่?")) return;
+            let list = JSON.parse(localStorage.getItem(storageKey)) || [];
             list.splice(index, 1);
             localStorage.setItem(storageKey, JSON.stringify(list));
             render();
         }
 
-        // โหลดข้อมูลขึ้นมาโชว์ตอนเปิดเว็บครั้งแรก
-        window.onload = render;
+        // โหลดข้อมูลแสดงผลทันทีที่เปิดหน้าเว็บ
+        window.onload = function() {
+            render();
+        };
     </script>
 </body>
 </html>
-
