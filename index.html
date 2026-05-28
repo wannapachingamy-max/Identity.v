@@ -42,12 +42,38 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+            position: relative;
+        }
+
+        /* --- ปุ่มกดเพิ่มสินค้า (Admin Button) --- */
+        .admin-toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #6d28d9, #a855f7);
+            color: white;
+            border: 1px solid #c084fc;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-family: 'Mitr', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .admin-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
+            background: linear-gradient(45deg, #7c3aed, #c084fc);
         }
 
         /* --- ส่วนหัวร้าน --- */
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
+            margin-top: 20px;
             position: relative;
         }
 
@@ -59,7 +85,6 @@
             text-shadow: 0 0 10px #a13bf7, 0 0 20px #a13bf7, 0 0 30px #4d0099;
             letter-spacing: 2px;
             margin-bottom: 10px;
-            cursor: pointer; /* ทำให้กดได้เพื่อเปิดเมนูลับ */
             user-select: none;
         }
 
@@ -139,7 +164,7 @@
             white-space: pre-line;
         }
 
-        /* ปุ่มลบสินค้าที่จะขึ้นมาเฉพาะตอนเปิดระบบจัดการ */
+        /* ปุ่มลบสินค้า */
         .delete-btn {
             display: none;
             position: absolute;
@@ -154,11 +179,12 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            z-index: 10;
         }
 
-        /* --- แผงควบคุมลับ (Hidden Admin Panel) --- */
+        /* --- แผงควบคุมกรอกข้อมูล (Admin Panel) --- */
         .admin-panel {
-            display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+            display: none;
             background: rgba(20, 12, 38, 0.95);
             border: 2px dashed #a13bf7;
             padding: 25px;
@@ -260,7 +286,17 @@
         .btn-line { background: linear-gradient(45deg, #06c755, #05a345); color: white; }
         .btn-line:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(6, 199, 85, 0.5); }
 
+        /* การจัดวางในมือถือ */
         @media (max-width: 600px) {
+            .admin-toggle-btn {
+                position: relative;
+                top: 0;
+                right: 0;
+                display: block;
+                margin: 0 auto 20px auto;
+                text-align: center;
+                width: fit-content;
+            }
             .shop-title { font-size: 2.5rem; }
             .product-grid { grid-template-columns: 1fr; }
         }
@@ -269,16 +305,18 @@
 <body>
 
     <div class="container">
+        <!-- 💜 ปุ่มเปิด-ปิดระบบเพิ่มสินค้าอัปเกรดใหม่ 💜 -->
+        <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ เพิ่มสินค้า</button>
+
         <!-- ส่วนหัวร้าน -->
         <header>
-            <!-- 💡 ทริค: ดับเบิ้ลคลิก (Double Click) ที่ชื่อร้านเพื่อเปิดเมนูอัปโหลดความลับ! -->
-            <h1 class="shop-title" ondblclick="toggleAdminPanel()">CHIEL . MON</h1>
+            <h1 class="shop-title">CHIEL . MON</h1>
             <p class="shop-subtitle">แหล่งรวมไอดี , ฝากขาย <span>Iden 🔴</span></p>
         </header>
 
-        <!-- 🔒 แผงควบคุมลับสำหรับอัปโหลดข้อมูล (เริ่มต้นจะถูกซ่อนไว้) -->
+        <!-- แผงควบคุมสำหรับอัปโหลดข้อมูล (เปิด-ปิดผ่านปุ่มด้านบน) -->
         <div class="admin-panel" id="adminPanel">
-            <h3>✨ แผงควบคุมร้านค้า (ความลับระบบหลังบ้าน)</h3>
+            <h3>✨ แผงควบคุมร้านค้า (ระบบจัดการสินค้า)</h3>
             <div class="form-group">
                 <label>อัปโหลดรูปภาพสินค้า:</label>
                 <input type="file" id="imageInput" accept="image/*">
@@ -300,7 +338,7 @@
         <!-- โซนแสดงสินค้า -->
         <main class="product-section">
             <div class="product-grid" id="productGrid">
-                <!-- ข้อมูลสินค้าที่อัปโหลดจะถูกนำมาจัดวางอย่างสวยงามตรงนี้อัตโนมัติ -->
+                <!-- ข้อมูลสินค้าที่อัปโหลดจะแสดงตรงนี้อัตโนมัติ -->
             </div>
         </main>
 
@@ -316,7 +354,6 @@
 
     <!-- สคริปต์ระบบทำงานเบื้องหลัง -->
     <script>
-        // ฟังก์ชันเปิด-ปิด แผงควบคุมความลับ
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanel');
             const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -330,7 +367,6 @@
             }
         }
 
-        // ฟังก์ชันแปลงไฟล์รูปภาพและบันทึกลงเครื่อง
         function saveProduct() {
             const idInput = document.getElementById('idInput').value.trim();
             const descInput = document.getElementById('descInput').value.trim();
@@ -346,17 +382,13 @@
                 const productData = {
                     id: idInput,
                     desc: descInput,
-                    image: e.target.result // แปลงรูปเป็น Base64
+                    image: e.target.result
                 };
 
-                // ดึงข้อมูลเดิมจากคลัง
                 let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
                 products.push(productData);
-                
-                // บันทึกกลับลงไป
                 localStorage.setItem('chielmon_products', JSON.stringify(products));
 
-                // เคลียร์ค่าในฟอร์มและรีเฟรชการแสดงผล
                 document.getElementById('idInput').value = '';
                 document.getElementById('descInput').value = '';
                 document.getElementById('imageInput').value = '';
@@ -366,14 +398,12 @@
             reader.readAsDataURL(imageFile);
         }
 
-        // ฟังก์ชันดึงข้อมูลสินค้าทั้งหมดออกมาแสดงผลบนหน้าจอ
         function displayProducts() {
             const grid = document.getElementById('productGrid');
             const panel = document.getElementById('adminPanel');
             const isEditing = panel.style.display === 'block';
             
             grid.innerHTML = '';
-            
             let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
 
             if (products.length === 0) {
@@ -396,7 +426,6 @@
             });
         }
 
-        // ฟังก์ชันลบสินค้า
         function deleteProduct(index) {
             if(confirm("คุณต้องการลบไอเทมนี้ใช่หรือไม่?")) {
                 let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
@@ -406,8 +435,8 @@
             }
         }
 
-        // สั่งให้โหลดสินค้าขึ้นมาแสดงทันทีเมื่อเปิดหน้าเว็บ
         window.onload = displayProducts;
     </script>
 </body>
 </html>
+
