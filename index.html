@@ -388,7 +388,7 @@
             </div>
         </main>
 
-        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้า ย้ายมาไว้ด้านล่างแล้ว ✨ -->
+        <!-- ✨ ปุ่มเปิด-ปิดระบบเพิ่มสินค้า ✨ -->
         <div class="admin-toggle-btn-wrapper">
             <button class="admin-toggle-btn" onclick="toggleAdminPanel()">✨ จัดการและเพิ่มสินค้า</button>
         </div>
@@ -404,7 +404,6 @@
                 <label>รหัสสินค้า (เช่น ID 01):</label>
                 <input type="text" id="idInput" placeholder="กรอกรหัสไอดี">
             </div>
-            <!-- 📌 เพิ่มตัวเลือกสถานะสินค้า 📌 -->
             <div class="form-group">
                 <label>สถานะสินค้า:</label>
                 <select id="statusInput">
@@ -436,7 +435,6 @@
 
     <!-- สคริปต์ระบบทำงานเบื้องหลัง -->
     <script>
-        // ฟังก์ชันสร้างใบไม้ร่วง
         function createLeaves() {
             const container = document.getElementById('leafContainer');
             const leafCount = 25;
@@ -463,11 +461,11 @@
             } else {
                 panel.style.display = 'block';
                 deleteButtons.forEach(btn => btn.style.display = 'block');
-                // เลื่อนหน้าจอลงมาที่แผงควบคุมเพื่อให้แอดมินเห็นได้ง่ายขึ้น
                 panel.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
+        // 🛠️ ปรับปรุงแก้ไขฟังก์ชันบันทึกข้อมูลตรงนี้ 🛠️
         function saveProduct() {
             const idInput = document.getElementById('idInput').value.trim();
             const statusInput = document.getElementById('statusInput').value;
@@ -483,20 +481,23 @@
             reader.onload = function(e) {
                 const productData = {
                     id: idInput,
-                    status: statusInput, // บันทึกสถานะลงฐานข้อมูล
+                    status: statusInput,
                     desc: descInput,
                     image: e.target.result
                 };
 
+                // ดึงข้อมูลเก่า -> ต่อท้ายด้วยชิ้นใหม่ -> เซฟลงเครื่อง
                 let products = JSON.parse(localStorage.getItem('chielmon_products')) || [];
                 products.push(productData);
                 localStorage.setItem('chielmon_products', JSON.stringify(products));
 
+                // เคลียร์ค่าในฟอร์มเพื่อให้พร้อมรับข้อมูลชิ้นต่อไป
                 document.getElementById('idInput').value = '';
                 document.getElementById('statusInput').value = 'available';
                 document.getElementById('descInput').value = '';
                 document.getElementById('imageInput').value = '';
                 
+                // สั่งให้อัปเดตตู้แสดงสินค้าทันทีหลังจากเคลียร์ฟอร์มสำเร็จ
                 displayProducts();
             };
             reader.readAsDataURL(imageFile);
@@ -515,7 +516,6 @@
                 return;
             }
 
-            // แมปค่าสถานะเป็นข้อความภาษาไทยและคลาส CSS สำหรับป้ายกำกับ
             const statusMap = {
                 'available': { text: 'ยังอยู่', class: 'status-available' },
                 'sold': { text: 'ขายหมดแล้ว', class: 'status-sold' },
@@ -524,7 +524,6 @@
             };
 
             products.forEach((product, index) => {
-                // หากสินค้าเก่าไม่มีค่า status ให้ตั้งเป็น 'available' (ยังอยู่) โดยอัตโนมัติ
                 const currentStatus = product.status || 'available';
                 const statusInfo = statusMap[currentStatus];
 
