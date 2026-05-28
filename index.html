@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Mitr:wght@300;400;600&family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- สไตล์ธีมเวทมนตร์ (คงเดิมเพื่อความสวยงาม) --- */
+        /* --- สไตล์ธีมเวทมนตร์คงเดิม --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Mitr', sans-serif;
@@ -38,15 +38,15 @@
         .reserved { background: #ef6c00; }
         .installments { background: #0277bd; }
 
-        .img-box { width: 100%; height: 180px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .img-box { width: 100%; height: 260px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
         .p-id { font-family: 'Chakra Petch', sans-serif; font-size: 1.3rem; color: #fff1cc; margin-bottom: 5px; font-weight: 700; }
         .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; white-space: pre-line; }
 
         /* ปุ่มลบ */
         .del-btn { display: none; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 10; }
 
-        /* แผงควบคุมด้านล่าง */
+        /* แผงควบคุมแอดมิน */
         .admin-section { margin-top: 60px; text-align: center; }
         .toggle-admin { background: #dfb15b; color: #0b1d16; padding: 12px 30px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; font-size: 1rem; }
         .admin-panel { display: none; background: rgba(20, 40, 30, 0.95); border: 2px dashed #dfb15b; border-radius: 20px; padding: 30px; margin-top: 20px; text-align: left; }
@@ -70,7 +70,7 @@
 
         <!-- โซนตู้สินค้า -->
         <div class="product-grid" id="mainGrid">
-            <!-- รายการสินค้าทั้งหมดจะแสดงตรงนี้ -->
+            <!-- ข้อมูลสินค้าขนาดใหญ่จะถูกดึงมาแสดงตรงนี้อย่างปลอดภัย -->
         </div>
 
         <!-- แผงควบคุมแอดมินด้านล่าง -->
@@ -78,7 +78,7 @@
             <button class="toggle-admin" onclick="showAdmin()">✨ จัดการตู้สินค้า (เพิ่ม/ลบ)</button>
             
             <div class="admin-panel" id="adminBox" style="display: none;">
-                <h3>🛠️ เพิ่มสินค้าใหม่</h3>
+                <h3>🛠️ เพิ่มสินค้าใหม่ (รองรับภาพขนาดใหญ่พิเศษ)</h3>
                 <label>รูปภาพไอดี:</label>
                 <input type="file" id="pImg" accept="image/*">
                 
@@ -96,7 +96,7 @@
                 <label>รายละเอียดสินค้า:</label>
                 <textarea id="pDesc" rows="3" placeholder="ระบุรายละเอียดไอดี..."></textarea>
                 
-                <button class="save-btn" onclick="addNew()">➕ บันทึกและแสดงผลทันที</button>
+                <button class="save-btn" onclick="addNew()">➕ บันทึกภาพความละเอียดสูงลงตู้สินค้า</button>
             </div>
         </div>
 
@@ -121,112 +121,157 @@
             }
         }
 
-        // คีย์สำหรับเก็บข้อมูลในคอมพิวเตอร์
-        const storageKey = "CHIEL_MON_FINAL_STORE";
+        // --- 🛠️ ระบบฐานข้อมูลฐานข้อมูลความจุสูง INDEXEDDB SYSTEM ---
+        const dbName = "ChielMonMegaDB";
+        const storeName = "products";
+        let db;
 
-        // ฟังก์ชันเปิด-ปิดแผงควบคุม
+        // เปิดการเชื่อมต่อฐานข้อมูลตัวใหญ่
+        const request = indexedDB.open(dbName, 1);
+        request.onupgradeneeded = function(e) {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
+            }
+        };
+        request.onsuccess = function(e) {
+            db = e.target.result;
+            render(); // เมื่อฐานข้อมูลพร้อม ให้ดึงข้อมูลมาแสดงทันที
+        };
+        request.onerror = function() {
+            console.error("ไม่สามารถเปิดฐานข้อมูล IndexedDB ได้");
+        };
+
         function showAdmin() {
             const box = document.getElementById('adminBox');
             const btns = document.querySelectorAll('.del-btn');
-            
-            if (box.style.display === 'block') {
-                box.style.display = 'none';
-                btns.forEach(b => b.style.display = 'none');
-            } else {
-                box.style.display = 'block';
-                btns.forEach(b => b.style.display = 'block');
-                box.scrollIntoView({ behavior: 'smooth' });
-            }
+            const isBlock = box.style.display === 'block';
+            box.style.display = isBlock ? 'none' : 'block';
+            btns.forEach(b => b.style.display = isBlock ? 'none' : 'block');
+            if(!isBlock) box.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ฟังก์ชันเพิ่มสินค้าใหม่ (แก้ไขปัญหาการหยุดทำงานแล้ว)
+        // ฟังก์ชันบีบอัดรูปภาพและแปลงไฟล์เพื่อให้บันทึกรูปใหญ่ๆ ได้อย่างรวดเร็ว
         function addNew() {
-            const id = document.getElementById('pId').value.trim();
+            const idCode = document.getElementById('pId').value.trim();
             const status = document.getElementById('pStatus').value;
             const desc = document.getElementById('pDesc').value.trim();
             const fileInput = document.getElementById('pImg');
             const file = fileInput.files[0];
 
-            if(!id || !desc || !file) {
-                alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพด้วยนะจ้า! ✦");
+            if(!idCode || !desc || !file) {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพด้วยนะครับ ✦");
                 return;
             }
 
             const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const newItem = { id, status, desc, img: e.target.result };
-                    let list = JSON.parse(localStorage.getItem(storageKey)) || [];
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    // ใช้ Canvas บีบอัดระดับคุณภาพให้เหมาะกับหน้าเว็บเพื่อประสิทธิภาพสูงสุด
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
                     
-                    list.push(newItem);
-                    localStorage.setItem(storageKey, JSON.stringify(list));
+                    // จำกัดขนาดความกว้างไว้ที่ความคมชัดสูง 1200px (สัดส่วนภาพคงเดิม)
+                    const maxW = 1200;
+                    const scale = maxW / img.width;
+                    if(img.width > maxW) {
+                        canvas.width = maxW;
+                        canvas.height = img.height * scale;
+                    } else {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                    }
+
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     
-                    // เคลียร์ฟอร์ม
-                    document.getElementById('pId').value = '';
-                    document.getElementById('pDesc').value = '';
-                    fileInput.value = '';
+                    // แปลงกลับเป็น Base64 ที่บีบอัดแล้ว (คุณภาพ 85% คมชัดเท่าเดิมแต่ไฟล์เล็กลงมาก)
+                    const optimizedImage = canvas.toDataURL('image/jpeg', 0.85);
+
+                    const newItem = {
+                        productId: idCode,
+                        status: status,
+                        desc: desc,
+                        img: optimizedImage
+                    };
+
+                    // บันทึกลงคลังข้อมูลขนาดใหญ่ IndexedDB
+                    const transaction = db.transaction([storeName], "readwrite");
+                    const store = transaction.objectStore(storeName);
+                    const addRequest = store.add(newItem);
+
+                    addRequest.onsuccess = function() {
+                        // ล้างช่องกรอกข้อมูล
+                        document.getElementById('pId').value = '';
+                        document.getElementById('pDesc').value = '';
+                        fileInput.value = '';
+                        
+                        render(); // วาดตู้สินค้าใหม่
+                        alert("เพิ่มสินค้ารูปภาพความละเอียดสูงเรียบร้อยแล้ว! ✨");
+                    };
                     
-                    render(); // รีเฟรชตู้สินค้าบนหน้าเว็บ
-                    alert("เพิ่มสินค้าเข้าตู้เรียบร้อยแล้ว!");
-                } catch (error) {
-                    alert("ขนาดไฟล์รูปภาพใหญ่เกินไปเล็กน้อยครับ ลองลดขนาดรูปภาพลง แล้วลองอัปโหลดใหม่อีกครั้งนะครับ");
-                }
+                    addRequest.onerror = function() {
+                        alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+                    };
+                };
             };
             reader.readAsDataURL(file);
         }
 
-        // ฟังก์ชันวาดตู้สินค้าขึ้นหน้าเว็บ
+        // ฟังก์ชันดึงข้อมูลจาก IndexedDB มาแสดงบนเว็บทั้งหมด
         function render() {
             const grid = document.getElementById('mainGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = ''; // เคลียร์ตู้ให้ว่าง
-            
-            const list = JSON.parse(localStorage.getItem(storageKey)) || [];
-            const box = document.getElementById('adminBox');
-            
-            // ตรวจสอบความปลอดภัยป้องกันโค้ดชะงัก
-            const isEditing = box ? (box.style.display === 'block') : false;
-            
-            if (list.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #a1bcae; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
-                return;
-            }
+            if (!grid || !db) return;
+            grid.innerHTML = '';
 
-            const statusLabel = {
-                'available': 'ยังอยู่',
-                'sold': 'ขายหมดแล้ว',
-                'reserved': 'ติดจอง',
-                'installments': 'ติดผ่อน'
+            const transaction = db.transaction([storeName], "readonly");
+            const store = transaction.objectStore(storeName);
+            const getAllRequest = store.getAll();
+
+            getAllRequest.onsuccess = function() {
+                const list = getAllRequest.result;
+                const box = document.getElementById('adminBox');
+                const isEditing = box ? (box.style.display === 'block') : false;
+
+                if (list.length === 0) {
+                    grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #a1bcae; font-style: italic; padding: 40px 0;">✦ ขณะนี้ยังไม่มีรายการไอดีในตู้สินค้า ✦</p>`;
+                    return;
+                }
+
+                const statusLabel = {
+                    'available': 'ยังอยู่',
+                    'sold': 'ขายหมดแล้ว',
+                    'reserved': 'ติดจอง',
+                    'installments': 'ติดผ่อน'
+                };
+
+                list.forEach((item) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <button class="del-btn" style="display:${isEditing?'block':'none'}" onclick="remove(${item.id})">✕</button>
+                        <div class="status-tag ${item.status}">${statusLabel[item.status]}</div>
+                        <div class="img-box"><img src="${item.img}" onclick="window.open('${item.img}', '_blank')"></div>
+                        <div class="p-id">${item.productId}</div>
+                        <div class="p-desc">${item.desc}</div>
+                    `;
+                    grid.appendChild(card);
+                });
             };
-
-            list.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <button class="del-btn" style="display:${isEditing?'block':'none'}" onclick="remove(${index})">✕</button>
-                    <div class="status-tag ${item.status}">${statusLabel[item.status]}</div>
-                    <div class="img-box"><img src="${item.img}"></div>
-                    <div class="p-id">${item.id}</div>
-                    <div class="p-desc">${item.desc}</div>
-                `;
-                grid.appendChild(card);
-            });
         }
 
-        // ฟังก์ชันลบสินค้า
-        function remove(index) {
+        // ฟังก์ชันลบข้อมูลออกจากฐานข้อมูล
+        function remove(id) {
             if(!confirm("คุณต้องการลบสินค้าชิ้นนี้ใช่หรือไม่?")) return;
-            let list = JSON.parse(localStorage.getItem(storageKey)) || [];
-            list.splice(index, 1);
-            localStorage.setItem(storageKey, JSON.stringify(list));
-            render();
-        }
+            const transaction = db.transaction([storeName], "readwrite");
+            const store = transaction.objectStore(storeName);
+            const deleteRequest = store.delete(id);
 
-        // โหลดข้อมูลแสดงผลทันทีที่เปิดหน้าเว็บ
-        window.onload = function() {
-            render();
-        };
+            deleteRequest.onsuccess = function() {
+                render();
+            };
+        }
     </script>
 </body>
 </html>
