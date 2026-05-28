@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
 
         /* ตู้สินค้า */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .product-card { background: rgba(18, 41, 30, 0.85); border: 2px solid #3c634e; border-radius: 20px; padding: 20px; position: relative; transition: 0.3s; backdrop-filter: blur(10px); }
+        .product-card { background: rgba(18, 41, 30, 0.85); border: 2px solid #3c634e; border-radius: 20px; padding: 20px; position: relative; transition: 0.3s; backdrop-filter: blur(10px); display: flex; flex-direction: column; }
         .product-card:hover { transform: translateY(-10px); border-color: #dfb15b; }
 
         .status-tag { position: absolute; top: 15px; left: 15px; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #fff; z-index: 3; }
@@ -41,7 +41,11 @@
         .img-box { width: 100%; height: 260px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid #2a4b3b; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
         .p-id { font-family: 'Chakra Petch', sans-serif; font-size: 1.3rem; color: #fff1cc; margin-bottom: 5px; font-weight: 700; }
-        .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; white-space: pre-line; }
+        .p-desc { font-size: 0.9rem; color: #c9e2d5; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; text-align: left; min-height: 60px; white-space: pre-line; margin-bottom: 15px; flex-grow: 1; }
+
+        /* 🛒 ปุ่มสนใจสั่งซื้อประจำไอดี */
+        .buy-btn { background: linear-gradient(90deg, #dfb15b, #bfa043); color: #0b1d16; border: none; padding: 10px; border-radius: 10px; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.3s; width: 100%; margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .buy-btn:hover { background: linear-gradient(90deg, #fff1cc, #dfb15b); box-shadow: 0 0 15px rgba(223, 177, 91, 0.6); transform: scale(1.02); }
 
         /* ปุ่มลบ */
         .del-btn { display: none; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 10; }
@@ -56,6 +60,76 @@
 
         footer { text-align: center; margin-top: 60px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 20px; }
         .contact-link { color: #dfb15b; text-decoration: none; font-weight: 600; margin: 0 10px; }
+
+        /* --- 🔮 สไตล์กล่องป็อปอัปเวทมนตร์ --- */
+        .magic-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 14, 10, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .magic-modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .magic-modal-card {
+            background: linear-gradient(145deg, #12291e, #1a3a2a);
+            border: 2px solid #dfb15b;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(223, 177, 91, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        .magic-modal-overlay.active .magic-modal-card { transform: scale(1); }
+
+        .magic-modal-title {
+            font-family: 'Cinzel', serif;
+            color: #dfb15b;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(223, 177, 91, 0.5);
+        }
+        .magic-modal-text {
+            font-size: 1rem;
+            color: #d2e7dd;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .magic-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .magic-popup-btn {
+            padding: 10px 24px;
+            font-family: 'Mitr', sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            min-width: 100px;
+            transition: 0.2s;
+        }
+        .magic-btn-confirm { background: #dfb15b; color: #0b1d16; }
+        .magic-btn-confirm:hover { background: #fff1cc; box-shadow: 0 0 15px #dfb15b; }
+        .magic-btn-cancel { background: #264233; color: #c9e2d5; border: 1px solid #3c634e; }
+        .magic-btn-cancel:hover { background: #3c634e; color: #fff; }
+
+        /* 💬 ปุ่มช่องทางติดต่อสั่งซื้อในหน้าป็อปอัป */
+        .contact-order-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left; }
+        .contact-order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; color: #fff; transition: 0.2s; }
+        .order-line { background: #06C755; }
+        .order-line:hover { background: #05b04b; box-shadow: 0 0 15px rgba(6, 199, 85, 0.4); }
+        .order-fb { background: #1877F2; }
+        .order-fb:hover { background: #1464cd; box-shadow: 0 0 15px rgba(24, 119, 242, 0.4); }
     </style>
 </head>
 <body>
@@ -69,9 +143,7 @@
         </header>
 
         <!-- โซนตู้สินค้า -->
-        <div class="product-grid" id="mainGrid">
-            <!-- ข้อมูลสินค้าขนาดใหญ่จะถูกดึงมาแสดงตรงนี้อย่างปลอดภัย -->
-        </div>
+        <div class="product-grid" id="mainGrid"></div>
 
         <!-- แผงควบคุมแอดมินด้านล่าง -->
         <div class="admin-section">
@@ -107,6 +179,16 @@
         </footer>
     </div>
 
+    <!-- 🔮 กล่องป็อปอัปเวทมนตร์โครงสร้าง HTML -->
+    <div class="magic-modal-overlay" id="magicModal">
+        <div class="magic-modal-card">
+            <div class="magic-modal-title" id="modalTitle">CHIEL . MON</div>
+            <div class="magic-modal-text" id="modalText">ข้อความระบบ...</div>
+            <div id="customModalContent"></div> <!-- พื้นที่สำหรับใส่ปุ่มติดต่อแบบพิเศษ -->
+            <div class="magic-modal-buttons" id="modalButtons"></div>
+        </div>
+    </div>
+
     <script>
         // สร้างใบไม้ร่วงพื้นหลัง
         const leafContainer = document.getElementById('leafContainer');
@@ -121,12 +203,84 @@
             }
         }
 
-        // --- 🛠️ ระบบฐานข้อมูลฐานข้อมูลความจุสูง INDEXEDDB SYSTEM ---
+        // --- ระบบจัดการกล่องป็อปอัปแบบปรับแต่งเอง ---
+        function clearModalExtensions() {
+            document.getElementById('customModalContent').innerHTML = '';
+        }
+
+        function openMagicAlert(title, text, onConfirm) {
+            clearModalExtensions();
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = text;
+            const btnContainer = document.getElementById('modalButtons');
+            btnContainer.innerHTML = `<button class="magic-popup-btn magic-btn-confirm" id="popupOkBtn">ตกลง</button>`;
+            
+            const overlay = document.getElementById('magicModal');
+            overlay.classList.add('active');
+            
+            document.getElementById('popupOkBtn').onclick = function() {
+                overlay.classList.remove('active');
+                if(onConfirm) onConfirm();
+            };
+        }
+
+        function openMagicConfirm(title, text, onConfirm, onCancel) {
+            clearModalExtensions();
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = text;
+            const btnContainer = document.getElementById('modalButtons');
+            btnContainer.innerHTML = `
+                <button class="magic-popup-btn magic-btn-cancel" id="popupCancelBtn">ยกเลิก</button>
+                <button class="magic-popup-btn magic-btn-confirm" id="popupConfirmBtn">ตกลง</button>
+            `;
+            
+            const overlay = document.getElementById('magicModal');
+            overlay.classList.add('active');
+            
+            document.getElementById('popupConfirmBtn').onclick = function() {
+                overlay.classList.remove('active');
+                if(onConfirm) onConfirm();
+            };
+            document.getElementById('popupCancelBtn').onclick = function() {
+                overlay.classList.remove('active');
+                if(onCancel) onCancel();
+            };
+        }
+
+        // 💬 ฟังก์ชันเปิดหน้าต่างเลือกช่องทางสั่งซื้อประจำไอดี
+        function openOrderModal(productId) {
+            clearModalExtensions();
+            document.getElementById('modalTitle').innerText = "🔮 ช่องทางติดต่อสั่งซื้อ";
+            document.getElementById('modalText').innerText = `คุณกำลังสนใจสั่งซื้อไอดีรหัส: ${productId}\nกรุณาเลือกช่องทางที่คุณสะดวกเพื่อทักแชทแอดมินได้เลยครับ`;
+            
+            // แทรกปุ่มทางเลือก Line และ Facebook (เอาลิงก์จริงของคุณมาใส่ในช่อง href ได้เลยครับ)
+            document.getElementById('customModalContent').innerHTML = `
+                <div class="contact-order-box">
+                    <a href="https://lin.ee/7pt6TZl" target="_blank" class="contact-order-btn order-line">
+                        🟢 สั่งซื้อผ่าน Line Official
+                    </a>
+                    <a href="https://www.facebook.com/share/1CTGfbxK8g/" target="_blank" class="contact-order-btn order-fb">
+                        🔵 สั่งซื้อผ่าน Facebook
+                    </a>
+                </div>
+            `;
+
+            const btnContainer = document.getElementById('modalButtons');
+            btnContainer.innerHTML = `<button class="magic-popup-btn magic-btn-cancel" id="popupCloseBtn" style="width:100%">ปิดหน้าต่างนี้</button>`;
+            
+            const overlay = document.getElementById('magicModal');
+            overlay.classList.add('active');
+            
+            document.getElementById('popupCloseBtn').onclick = function() {
+                overlay.classList.remove('active');
+            };
+        }
+
+        // --- ระบบฐานข้อมูล INDEXEDDB SYSTEM ---
         const dbName = "ChielMonMegaDB";
         const storeName = "products";
         let db;
 
-        // เปิดการเชื่อมต่อฐานข้อมูลตัวใหญ่
         const request = indexedDB.open(dbName, 1);
         request.onupgradeneeded = function(e) {
             db = e.target.result;
@@ -136,10 +290,7 @@
         };
         request.onsuccess = function(e) {
             db = e.target.result;
-            render(); // เมื่อฐานข้อมูลพร้อม ให้ดึงข้อมูลมาแสดงทันที
-        };
-        request.onerror = function() {
-            console.error("ไม่สามารถเปิดฐานข้อมูล IndexedDB ได้");
+            render();
         };
 
         function showAdmin() {
@@ -151,7 +302,6 @@
             if(!isBlock) box.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ฟังก์ชันบีบอัดรูปภาพและแปลงไฟล์เพื่อให้บันทึกรูปใหญ่ๆ ได้อย่างรวดเร็ว
         function addNew() {
             const idCode = document.getElementById('pId').value.trim();
             const status = document.getElementById('pStatus').value;
@@ -160,7 +310,7 @@
             const file = fileInput.files[0];
 
             if(!idCode || !desc || !file) {
-                alert("กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพด้วยนะครับ ✦");
+                openMagicAlert("✦ แจ้งเตือน ✦", "กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพด้วยนะครับ");
                 return;
             }
 
@@ -169,11 +319,9 @@
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = function() {
-                    // ใช้ Canvas บีบอัดระดับคุณภาพให้เหมาะกับหน้าเว็บเพื่อประสิทธิภาพสูงสุด
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    // จำกัดขนาดความกว้างไว้ที่ความคมชัดสูง 1200px (สัดส่วนภาพคงเดิม)
                     const maxW = 1200;
                     const scale = maxW / img.width;
                     if(img.width > maxW) {
@@ -185,8 +333,6 @@
                     }
 
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    
-                    // แปลงกลับเป็น Base64 ที่บีบอัดแล้ว (คุณภาพ 85% คมชัดเท่าเดิมแต่ไฟล์เล็กลงมาก)
                     const optimizedImage = canvas.toDataURL('image/jpeg', 0.85);
 
                     const newItem = {
@@ -196,30 +342,22 @@
                         img: optimizedImage
                     };
 
-                    // บันทึกลงคลังข้อมูลขนาดใหญ่ IndexedDB
                     const transaction = db.transaction([storeName], "readwrite");
                     const store = transaction.objectStore(storeName);
                     const addRequest = store.add(newItem);
 
                     addRequest.onsuccess = function() {
-                        // ล้างช่องกรอกข้อมูล
                         document.getElementById('pId').value = '';
                         document.getElementById('pDesc').value = '';
                         fileInput.value = '';
-                        
-                        render(); // วาดตู้สินค้าใหม่
-                        alert("เพิ่มสินค้ารูปภาพความละเอียดสูงเรียบร้อยแล้ว! ✨");
-                    };
-                    
-                    addRequest.onerror = function() {
-                        alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+                        render();
+                        openMagicAlert("✦ สำเร็จ ✦", "เพิ่มสินค้าเข้าสู่ตู้แสดงผลเรียบร้อยแล้ว! ✨");
                     };
                 };
             };
             reader.readAsDataURL(file);
         }
 
-        // ฟังก์ชันดึงข้อมูลจาก IndexedDB มาแสดงบนเว็บทั้งหมด
         function render() {
             const grid = document.getElementById('mainGrid');
             if (!grid || !db) return;
@@ -255,22 +393,22 @@
                         <div class="img-box"><img src="${item.img}" onclick="window.open('${item.img}', '_blank')"></div>
                         <div class="p-id">${item.productId}</div>
                         <div class="p-desc">${item.desc}</div>
+                        <button class="buy-btn" onclick="openOrderModal('${item.productId}')">🛍️ สนใจสั่งซื้อไอดีนี้</button>
                     `;
                     grid.appendChild(card);
                 });
             };
         }
 
-        // ฟังก์ชันลบข้อมูลออกจากฐานข้อมูล
         function remove(id) {
-            if(!confirm("คุณต้องการลบสินค้าชิ้นนี้ใช่หรือไม่?")) return;
-            const transaction = db.transaction([storeName], "readwrite");
-            const store = transaction.objectStore(storeName);
-            const deleteRequest = store.delete(id);
-
-            deleteRequest.onsuccess = function() {
-                render();
-            };
+            openMagicConfirm("✦ ยืนยันการลบ ✦", "คุณต้องการลบสินค้าชิ้นนี้ออกจากตู้ใช่หรือไม่?", function() {
+                const transaction = db.transaction([storeName], "readwrite");
+                const store = transaction.objectStore(storeName);
+                const deleteRequest = store.delete(id);
+                deleteRequest.onsuccess = function() {
+                    render();
+                };
+            });
         }
     </script>
 </body>
