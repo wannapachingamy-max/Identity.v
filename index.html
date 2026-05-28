@@ -1,1 +1,314 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIEL . MON - แหล่งรวมไอดี ฝากขาย Iden</title>
+    <!-- Google Fonts สำหรับฟอนต์แนวแฟนตาซีและอ่านง่าย -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mitr:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- ตั้งค่าพื้นฐานและธีมแฟนตาซี --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Mitr', sans-serif;
+            background: linear-gradient(135deg, #0f0c1b, #201335, #0b1021);
+            color: #f1e8ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* เอฟเฟกต์ละอองดาวแฟนตาซีเบื้องหลัง */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- ส่วนหัวของร้าน (Header) --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .shop-title {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 10px #a13bf7, 0 0 20px #a13bf7, 0 0 30px #4d0099;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .shop-subtitle {
+            font-size: 1.2rem;
+            color: #d1b3ff;
+            text-shadow: 0 0 5px rgba(209, 179, 255, 0.5);
+            font-weight: 300;
+        }
+
+        .shop-subtitle span {
+            color: #ff4d4d;
+            text-shadow: 0 0 8px #ff4d4d;
+        }
+
+        /* --- โซนแสดงสินค้า (Product Grid) --- */
+        .product-section {
+            margin-bottom: 60px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* บล็อกสินค้าแนวเวทมนตร์/แฟนตาซี */
+        .product-card {
+            background: rgba(25, 18, 46, 0.75);
+            border: 2px solid #58338a;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(161, 59, 247, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ลูกเล่นขยับตอน Hover */
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #c084fc;
+            box-shadow: 0 15px 35px rgba(161, 59, 247, 0.35), inset 0 0 20px rgba(161, 59, 247, 0.2);
+        }
+
+        /* กรอบใส่รูปภาพ */
+        .product-image-box {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #130a21, #2d1b4e);
+            border: 1px dashed #8b5cf6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            font-size: 0.9rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* รหัส ID */
+        .product-id {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #e9d5ff;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px rgba(233, 213, 255, 0.5);
+        }
+
+        /* รายละเอียดสินค้า */
+        .product-details {
+            font-size: 0.95rem;
+            color: #c084fc;
+            line-height: 1.6;
+            background: rgba(15, 10, 30, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #a855f7;
+            text-align: left;
+            min-height: 60px;
+        }
+
+        /* --- ส่วนติดต่อเรา (Contact Section) --- */
+        .contact-section {
+            background: rgba(18, 11, 36, 0.85);
+            border: 1px solid #4c2880;
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 0 8px #a13bf7;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-facebook {
+            background: linear-gradient(45deg, #1877f2, #3b5998);
+            color: #ffffff;
+        }
+
+        .btn-facebook:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(24, 119, 242, 0.6);
+        }
+
+        .btn-line {
+            background: linear-gradient(45deg, #06c755, #05a345);
+            color: #ffffff;
+        }
+
+        .btn-line:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(6, 199, 85, 0.6);
+        }
+
+        /* --- Animation ลอยไปมาแบบเทพนิยาย --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive สำหรับมือถือ */
+        @media (max-width: 600px) {
+            .shop-title { font-size: 2.5rem; }
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ข้อมูลร้าน -->
+        <header>
+            <h1 class="shop-title">CHIEL . MON</h1>
+            <p class="shop-subtitle">แหล่งรวมไอดี , ฝากขาย <span>Iden 🔴</span></p>
+        </header>
+
+        <!-- โซนแสดงสินค้า -->
+        <main class="product-section">
+            <div class="product-grid" id="productContainer">
+                
+                <!-- ตัวอย่างบล็อกสินค้าที่ 1 -->
+                <div class="product-card">
+                    <div class="product-image-box">
+                        <!-- ใส่ Link รูปภาพในช่อง src เช่น src="รูปไอดี.jpg" -->
+                        <img src="https://placehold.co/400x300/1e1135/a78bfa?text=CHIEL.MON+IDEN" alt="Product Image">
+                    </div>
+                    <div class="product-id">ID 01</div>
+                    <div class="product-details">
+                        รายละเอียดข้อมูลไอดี: สกินลิมิเต็ดครบ / สายปั่น / อัปเกรดเต็ม พร้อมโอนลดได้ตัวแทนร้านดูแลดี
+                    </div>
+                </div>
+
+                <!-- ตัวอย่างบล็อกสินค้าที่ 2 -->
+                <div class="product-card">
+                    <div class="product-image-box">
+                        <img src="https://placehold.co/400x300/1e1135/a78bfa?text=CHIEL.MON+IDEN" alt="Product Image">
+                    </div>
+                    <div class="product-id">ID 02</div>
+                    <div class="product-details">
+                        รายละเอียดข้อมูลไอดี: อัปเดตสกินล่าสุด มีแพ็คเกจพร้อมเล่น รหัสสะอาดปลอดภัย 100%
+                    </div>
+                </div>
+
+                <!-- คุณสามารถเพิ่มบล็อกสินค้าตรงนี้แบบ Manual หรือใช้โค้ดด้านล่างเพิ่มอัตโนมัติได้เลยค่ะ -->
+
+            </div>
+        </main>
+
+        <!-- ช่องทางติดต่อ (Contact) -->
+        <footer class="contact-section">
+            <h2 class="contact-title">✦ Contact ช่องทางติดต่อ ✦</h2>
+            <div class="contact-buttons">
+                <a href="https://www.facebook.com/share/1CTGfbxK8g/" target="_blank" class="contact-btn btn-facebook">
+                    Facebook ร้านค้า
+                </a>
+                <a href="https://lin.ee/7pt6TZl" target="_blank" class="contact-btn btn-line">
+                    Line Official
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- สคริปต์ระบบหลังบ้านแบบง่ายสำหรับเติมไอเทมเพิ่มเติมอัตโนมัติ -->
+    <script>
+        // วิธีเพิ่มสินค้าใหม่แบบรวดเร็ว: เพียงแค่วางข้อมูลเพิ่มลงในอาร์เรย์ (Array) นี้
+        const newProducts = [
+            /* หากต้องการเพิ่ม ID 03, ID 04 ให้ก๊อปปี้บรรทัดด้านล่างนี้ไปวางต่อกันได้เลยค่ะ
+            {
+                id: "ID 03",
+                imgUrl: "ใส่ลิงก์รูปภาพตรงนี้", 
+                details: "รายละเอียดข้อมูลไอดีที่คุณต้องการพิมพ์เพิ่ม"
+            },
+            */
+        ];
+
+        const container = document.getElementById('productContainer');
+        newProducts.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image-box">
+                    <img src="${product.imgUrl || 'https://placehold.co/400x300/1e1135/a78bfa?text=CHIEL.MON+IDEN'}" alt="Product Image">
+                </div>
+                <div class="product-id">${product.id}</div>
+                <div class="product-details">${product.details}</div>
+            `;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
 
